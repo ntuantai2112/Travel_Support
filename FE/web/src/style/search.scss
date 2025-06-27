@@ -1,0 +1,112 @@
+@import 'common.scss';
+img{
+    object-fit: cover;
+}
+.menu__hover{
+    color: #333;
+    &:hover{
+        color: darkgoldenrod;
+    }
+}
+//search
+.wrapper__search{
+    margin-top: 80px;
+    @media (max-width:1024px){
+        margin-top: 30px;
+    }
+    h3.title{
+        @include title-h3
+    }
+    .row__search{
+        display: flex;
+        margin: 0 -10px 50px;
+        &:last-child{
+            margin-bottom: 0;
+        }
+        .col__content{
+            h4.title{
+                font-size: 18px;
+                font-weight: bold;
+                text-transform: capitalize;
+                text-align: left;
+                @media (max-width: 1024px){
+                    font-size: 16px;
+                }
+            }
+            p{
+                font-size: 14px;
+                text-align: left;
+                @media (max-width: 1024px){
+                    font-size: 13px;
+                }
+            }
+            span{
+                cursor: pointer;
+                float: left;
+                font-size: 14px;
+                font-weight: 500;
+                @media (max-width: 1024px){
+                    font-size: 13px;
+                }
+            }
+        }
+        .col-item{
+            padding: 0 15px;
+            .wrapper__item{
+                width: 100%;
+                height: 100%;
+                img{
+                    width: 100%;
+                    height: auto;
+                    @media(max-width: 1920px){
+                        height: 150px;
+                    }
+                    @media(max-width: 1024px){
+                        height: 106px;
+                    }
+                    
+                }
+                .content{
+                    width: 100%;
+                    text-align: left;
+                    font-size: 16px;
+                    font-weight: bold;
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+}
+.no-mg{
+    margin-top: 0;
+}
+
+//searchp-page
+.wrapper__search-page{
+    margin-top: 80px;
+}
+
+.slick-list {
+    width: 100% !important;
+  }
+  .slick-next {
+    display: none !important;
+  }
+  .slick-prev {
+    display: none !important;
+  }
+  .slick-slide {
+      width: 100%;
+    div {
+      &:nth-child(1) {
+        // width: 100% !important;
+        .col-item {
+          max-width: 100% !important;
+        }
+      }
+    }
+  }
+
+  .slick-track{
+      display: flex !important;
+  }

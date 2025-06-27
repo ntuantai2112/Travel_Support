@@ -1,0 +1,212 @@
+@import "../common.scss";
+* {
+    text-align: left;
+    input {
+        text-align: left;
+        border: 1px solid #d9d9d9;
+        padding: 5px 0;
+        font-size: 13px;
+        @media (max-width: 1024px) {
+            padding: 3px 0;
+            font-size: 12px;
+        }
+        &:focus {
+            outline: none;
+        }
+    }
+    label {
+        text-transform: capitalize;
+        font-weight: 500;
+        font-size: 16px;
+        @media (max-width: 1024px) {
+            font-size: 14px;
+        }
+    }
+}
+h4.title {
+    font-size: 21px;
+    font-weight: bold;
+    text-transform: capitalize;
+    @media (max-width: 1024px) {
+        font-size: 18px;
+    }
+}
+#booking__ticket--page{
+    margin-top: 80px;
+}
+
+.wrapper__booking-tiket {
+    .sign__up--text {
+        font-size: 18px;
+        text-transform: capitalize;
+        font-weight: 500;
+        width: 100%;
+        padding: 5px 15px;
+        border: 1px solid #3881ab;
+        @media (max-width: 1024px) {
+            font-size: 16px;
+        }
+        span.sign__up {
+            color: #3881ab;
+            cursor: pointer;
+        }
+    }
+    .content__booking {
+        padding: 0 15px;
+        margin-top: 20px;
+        .info__booking--ticket {
+            margin-bottom: 30px;
+            .content {
+                display: flex;
+                flex-wrap: wrap;
+                .time {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    @media (max-width: 1024px) {
+                        width: 50% !important;
+                    }
+                    .item {
+                        width: calc((100% / 2) - 5px);
+                        display: flex;
+                        flex-direction: column;
+                        input {
+                            width: 100%;
+                            font-size: 13px;
+                            @media (max-width: 1024px) {
+                                font-size: 12px;
+                            }
+                        }
+                        label {
+                            text-align: center;
+                            margin-bottom: 5px;
+                        }
+                    }
+                }
+                .amount__ticket {
+                    display: flex;
+                    flex-direction: column;
+                    @media (max-width: 1024px) {
+                        width: 50% !important;
+                    }
+                    .item {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        padding-left: 50px;
+                        input {
+                            width: 70px;
+                            font-size: 13px;
+                            padding-left: 10px;
+                            @media (max-width: 1024px) {
+                                font-size: 12px;
+                            }
+                        }
+                        label {
+                            display: flex;
+                            align-items: center;
+                        }
+                    }
+                    .adult__amount {
+                        margin-bottom: 20px;
+                    }
+                }
+                .attention {
+                    font-size: 14px;
+                    padding: 0 50px;
+                    opacity: 0.6;
+                    display: flex;
+                    text-transform: capitalize;
+                    align-items: center;
+                    @media (max-width: 1024px) {
+                        width: 100% !important;
+                        justify-content: flex-end;
+                        padding: 0 12px;
+                        margin-top: 10px;
+                    }
+                    p {
+                        margin: 0;
+                    }
+                    @media (max-width: 1024px) {
+                        font-size: 12px;
+                    }
+                }
+            }
+        }
+        .contact__info{
+            .content{
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                .item{
+                    display: flex;
+                    flex-direction: column;
+                    width: calc((100% / 2) - 100px)  !important;
+                    input{
+                        padding: 5px 10px !important;
+                        
+                    }
+                    label{
+                        text-align: left;
+                        margin-bottom: 5px;
+                    }
+                }
+                .name__info{
+                    margin-right: 70px;
+                }
+            }
+            .more__request{
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 30px;
+                label{
+                    font-size: 14px;
+                    span{
+                        font-weight: 400;
+                    }
+                }
+                #requested{
+                    min-height: 100px;
+                    padding: 5px 10px;
+                    border: 1px solid #d9d9d9;
+                    &:focus{
+                        outline: none;
+                    }
+                }
+            }
+        }
+        .rules{
+            margin-bottom: 30px;
+            p.text__rules{
+                font-size: 16px;
+                font-weight: 500;
+                text-transform: capitalize;
+                span{
+                    color: #3881ab;
+                    cursor: pointer;
+                    &:hover{
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+        .wrapper__booking--btn{
+            .booking__btn{
+                
+                width: fit-content;
+                padding: 5px 150px;
+                border-radius: 12px;
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: 500;
+                color: #fff;
+                background-color: #45A1D5;
+                border: 1px solid #45A1D5;
+                &:hover{
+                    background-color: #fff;
+                    color: #45A1D5;
+                }                
+            }
+        }
+    }
+}

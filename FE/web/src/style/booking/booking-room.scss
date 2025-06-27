@@ -1,0 +1,223 @@
+@import "../common.scss";
+
+* {
+    text-align: left;
+    hr {
+        margin: 10px 0 15px 0 !important;
+    }
+    input {
+        text-align: left;
+        border: 1px solid #d9d9d9;
+        padding: 5px 0;
+        font-size: 13px;
+        @media (max-width: 1024px) {
+            padding: 3px 0;
+            font-size: 12px;
+        }
+        &:focus {
+            outline: none;
+        }
+    }
+    label {
+        text-transform: capitalize;
+        font-weight: 500;
+        font-size: 16px;
+        @media (max-width: 1024px) {
+            font-size: 14px;
+        }
+    }
+    h4.title {
+        margin: 0;
+        font-size: 21px;
+        font-weight: bold;
+        text-transform: capitalize;
+        @media (max-width: 1024px) {
+            font-size: 18px;
+        }
+    }
+}
+
+#booking__room {
+    margin-top: 80px;
+}
+
+.wrapper__booking-room {
+    .sign__up--text {
+        font-size: 18px;
+        text-transform: capitalize;
+        font-weight: 500;
+        width: 100%;
+        padding: 5px 15px;
+        border: 1px solid #3881ab;
+        @media (max-width: 1024px) {
+            font-size: 16px;
+        }
+        span.sign__up {
+            color: #3881ab;
+            cursor: pointer;
+        }
+    }
+    .content__booking {
+        padding: 0 15px;
+        margin-top: 20px;
+        .contact__info {
+            .content {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                flex-wrap: wrap;
+                .item {
+                    display: flex;
+                    flex-direction: column;
+                    width: 300px;
+                    input {
+                        padding: 5px 10px !important;
+                    }
+                    label {
+                        text-align: left;
+                        margin-bottom: 5px;
+                    }
+                }
+                .mail__info {
+                    width: 100%;
+                    margin-top: 15px;
+                    label {
+                        margin-bottom: 5px;
+                    }
+                    #bottom__content {
+                        display: flex;
+                        #email {
+                            width: 60%;
+                            padding: 5px 10px;
+                        }
+                        span {
+                            display: flex;
+                            align-items: center;
+                            padding-left: 20px;
+                            font-size: 14px;
+                            opacity: 0.6;
+                        }
+                    }
+                }
+                .name__info {
+                    margin-right: 70px;
+                }
+            }
+        }
+        .bed__info {
+            margin-top: 30px;
+            &--text {
+                font-size: 16px;
+                margin: 0;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                text-transform: capitalize;
+                #bed__icon {
+                    width: 40px;
+                    height: 40px;
+                    margin-right: 20px;
+                }
+            }
+        }
+        .name__order--info {
+            margin-top: 30px;
+            .item {
+                display: flex;
+                flex-direction: column;
+                width: 300px;
+                input {
+                    padding: 5px 10px !important;
+                }
+                label {
+                    text-align: left;
+                    margin-bottom: 5px;
+                }
+            }
+            .more__request {
+                display: flex;
+                flex-direction: column;
+                margin-bottom: 30px;
+                label {
+                    font-size: 14px;
+                    margin-bottom: 10px;
+                    span {
+                        font-weight: 400;
+                    }
+                }
+                #requested {
+                    min-height: 100px;
+                    padding: 5px 10px;
+                    border: 1px solid #d9d9d9;
+                    &:focus {
+                        outline: none;
+                    }
+                }
+                #form-checkbox {
+                    label {
+                        margin-left: 10px;
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+        }
+        .payment__method {
+            margin-top: 30px !important;
+            h4.title {
+                #sm-text {
+                    font-size: 16px !important;
+                    font-weight: 400;
+                }
+            }
+            #form-checkbox__payment {
+                label {
+                    font-size: 14px;
+                    margin-left: 10px;
+                    margin-bottom: 5px;
+                }
+                ul {
+                    padding-left: 50px;
+                    margin: 0;
+                    #text {
+                        font-size: 14px;
+                        font-weight: 400;
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+        }
+        .rules {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            p.text__rules {
+                font-size: 16px;
+                font-weight: 500;
+                text-transform: capitalize;
+                span {
+                    color: #3881ab;
+                    cursor: pointer;
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+        .wrapper__booking--btn {
+            .booking__btn {
+                width: fit-content;
+                padding: 5px 150px;
+                border-radius: 12px;
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: 500;
+                color: #fff;
+                background-color: #45a1d5;
+                border: 1px solid #45a1d5;
+                &:hover {
+                    background-color: #fff;
+                    color: #45a1d5;
+                }
+            }
+        }
+    }
+}

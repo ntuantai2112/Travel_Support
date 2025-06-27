@@ -1,0 +1,21 @@
+.wrapper__rating--star {
+    margin-right: 5px;
+    ul.star__list {
+        display: flex;
+        padding: 0;
+        margin: 0;
+        li.item__star {
+            width: 15px;
+            height: 15px;
+            border: 1px solid #6d9546;
+            background-color: #6d9546;
+            list-style: none;
+            margin-right: 3px;
+            border-radius: 100%;
+            @media(max-width: 1024px){
+                width: 12px;
+            height: 12px;
+            }
+        }
+    }
+}

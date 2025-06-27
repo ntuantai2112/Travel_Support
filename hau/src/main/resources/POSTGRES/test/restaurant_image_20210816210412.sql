@@ -1,0 +1,108 @@
+INSERT INTO public.restaurant_image (id,created_at,updated_at,"version",caption,image_type,restaurant_code,url) VALUES
+	 (28,'2021-08-07 17:57:24.897487','2021-08-07 17:57:24.897487',0,'image for restaurant','MAIN','RE-PCV928OPDK','restaurant1628333844862-0.jpg'),
+	 (29,'2021-08-07 17:57:24.914476','2021-08-07 17:57:24.914476',0,'image for restaurant','MAIN','RE-PCV928OPDK','restaurant1628333844864-1.jpg'),
+	 (30,'2021-08-07 17:57:24.914476','2021-08-07 17:57:24.914476',0,'image for restaurant','MAIN','RE-PCV928OPDK','restaurant1628333844868-2.JPG'),
+	 (43,'2021-08-08 00:52:15.021396','2021-08-08 00:52:15.021396',0,'image for restaurant','MAIN','RE-UAFXSIKRYW','restaurant1628358734980-0.jpg'),
+	 (44,'2021-08-08 00:52:15.037431','2021-08-08 00:52:15.037431',0,'image for restaurant','MAIN','RE-UAFXSIKRYW','restaurant1628358734983-1.jpg'),
+	 (45,'2021-08-08 00:52:15.037431','2021-08-08 00:52:15.037431',0,'image for restaurant','MAIN','RE-UAFXSIKRYW','restaurant1628358734989-2.JPG'),
+	 (53,'2021-08-08 22:34:10.044038','2021-08-08 22:34:10.044038',0,'image for restaurant','MAIN','RE-EUQSX8NK2G','restaurant1628436850003-0.jpg'),
+	 (54,'2021-08-08 22:34:10.062004','2021-08-08 22:34:10.062004',0,'image for restaurant','MAIN','RE-EUQSX8NK2G','restaurant1628436850005-1.jpg'),
+	 (55,'2021-08-08 22:34:10.062004','2021-08-08 22:34:10.062004',0,'image for restaurant','MAIN','RE-EUQSX8NK2G','restaurant1628436850012-2.JPG'),
+	 (67,'2021-08-09 00:54:54.468348','2021-08-09 00:54:54.468348',0,'image for restaurant','MAIN','RE-IVFBCSYCHU','restaurant1628445294455-0.jpg');
+INSERT INTO public.restaurant_image (id,created_at,updated_at,"version",caption,image_type,restaurant_code,url) VALUES
+	 (68,'2021-08-09 00:54:54.469036','2021-08-09 00:54:54.469036',0,'image for restaurant','MAIN','RE-IVFBCSYCHU','restaurant1628445294456-1.jpg'),
+	 (69,'2021-08-09 00:54:54.469568','2021-08-09 00:54:54.469568',0,'image for restaurant','MAIN','RE-IVFBCSYCHU','restaurant1628445294463-2.JPG'),
+	 (70,'2021-08-09 11:30:13.92871','2021-08-09 11:30:13.92871',0,'image for restaurant','MAIN','RE-ZTFGTQQMOF','restaurant1628483413870-0.JPG'),
+	 (71,'2021-08-09 11:30:13.946561','2021-08-09 11:30:13.946561',0,'image for restaurant','MAIN','RE-ZTFGTQQMOF','restaurant1628483413877-1.jpg'),
+	 (75,'2021-08-09 15:32:57.51432','2021-08-09 15:32:57.51432',0,'image for restaurant','MAIN','RE-1MQ96ZR3VN','restaurant1628497977478-0.JPG'),
+	 (76,'2021-08-09 15:32:57.526321','2021-08-09 15:32:57.526321',0,'image for restaurant','MAIN','RE-1MQ96ZR3VN','restaurant1628497977484-1.jpg'),
+	 (79,'2021-08-10 10:42:00.298199','2021-08-10 10:42:00.298199',0,'image for restaurant','MAIN','RE-NC4XVTM6C6','restaurant1628566920241-0.JPG'),
+	 (80,'2021-08-10 10:42:00.325228','2021-08-10 10:42:00.325228',0,'image for restaurant','MAIN','RE-NC4XVTM6C6','restaurant1628566920252-1.jpg'),
+	 (81,'2021-08-10 10:42:00.326229','2021-08-10 10:42:00.326229',0,'image for restaurant','MAIN','RE-NC4XVTM6C6','restaurant1628566920254-2.jpg'),
+	 (98,'2021-08-12 23:55:43.662851','2021-08-12 23:55:43.662851',0,'image for hotel','MAIN','RE-IVFBCSYCHU','restaurant1628787343426-0.jpg');
+INSERT INTO public.restaurant_image (id,created_at,updated_at,"version",caption,image_type,restaurant_code,url) VALUES
+	 (99,'2021-08-12 23:55:43.683853','2021-08-12 23:55:43.683853',0,'image for hotel','MAIN','RE-IVFBCSYCHU','restaurant1628787343431-1.jpg'),
+	 (100,'2021-08-12 23:55:43.684893','2021-08-12 23:55:43.684893',0,'image for hotel','MAIN','RE-IVFBCSYCHU','restaurant1628787343438-2.jpg'),
+	 (101,'2021-08-12 23:56:22.090203','2021-08-12 23:56:22.090203',0,'image for restaurant','MAIN','RE-BCHGCSLGFM','restaurant1628787382078-0.JPG'),
+	 (102,'2021-08-12 23:56:22.091207','2021-08-12 23:56:22.091207',0,'image for restaurant','MAIN','RE-BCHGCSLGFM','restaurant1628787382082-1.jpg'),
+	 (103,'2021-08-12 23:56:22.091207','2021-08-12 23:56:22.091207',0,'image for restaurant','MAIN','RE-BCHGCSLGFM','restaurant1628787382083-2.jpg'),
+	 (104,'2021-08-13 00:11:22.256165','2021-08-13 00:11:22.256165',0,'image for room hotel','ROOM','RE-IVFBCSYCHU','hotel-room-1628788282221.JPG'),
+	 (159,'2021-08-15 21:56:09.418603','2021-08-15 21:56:09.418603',0,'image for restaurant','MAIN','RE-GJLGIZ34II','restaurant1629039369395-0.jpg'),
+	 (160,'2021-08-15 21:56:09.422645','2021-08-15 21:56:09.422645',0,'image for restaurant','MAIN','RE-GJLGIZ34II','restaurant1629039369396-1.jpg'),
+	 (161,'2021-08-15 21:56:09.423573','2021-08-15 21:56:09.423573',0,'image for restaurant','MAIN','RE-GJLGIZ34II','restaurant1629039369397-2.jpg'),
+	 (162,'2021-08-15 21:56:09.423573','2021-08-15 21:56:09.423573',0,'image for restaurant','MAIN','RE-GJLGIZ34II','restaurant1629039369398-3.jpg');
+INSERT INTO public.restaurant_image (id,created_at,updated_at,"version",caption,image_type,restaurant_code,url) VALUES
+	 (163,'2021-08-15 21:56:09.423573','2021-08-15 21:56:09.423573',0,'image for restaurant','MAIN','RE-GJLGIZ34II','restaurant1629039369400-4.jpg'),
+	 (164,'2021-08-15 21:56:09.424316','2021-08-15 21:56:09.424316',0,'image for restaurant','MAIN','RE-GJLGIZ34II','restaurant1629039369400-5.jpg'),
+	 (165,'2021-08-15 21:56:09.424569','2021-08-15 21:56:09.424569',0,'image for restaurant','MAIN','RE-GJLGIZ34II','restaurant1629039369402-6.jpg'),
+	 (166,'2021-08-15 21:56:09.424569','2021-08-15 21:56:09.424569',0,'image for restaurant','MAIN','RE-GJLGIZ34II','restaurant1629039369407-7.jpg'),
+	 (167,'2021-08-15 21:56:09.425644','2021-08-15 21:56:09.425644',0,'image for restaurant','MAIN','RE-GJLGIZ34II','restaurant1629039369408-8.jpg'),
+	 (168,'2021-08-15 21:56:09.425644','2021-08-15 21:56:09.425644',0,'image for restaurant','MAIN','RE-GJLGIZ34II','restaurant1629039369409-9.jpg'),
+	 (169,'2021-08-15 21:56:09.426569','2021-08-15 21:56:09.426569',0,'image for restaurant','MAIN','RE-GJLGIZ34II','restaurant1629039369410-10.jpg'),
+	 (170,'2021-08-15 21:56:09.426569','2021-08-15 21:56:09.426569',0,'image for restaurant','MAIN','RE-GJLGIZ34II','restaurant1629039369410-11.jpg'),
+	 (171,'2021-08-15 21:58:17.904069','2021-08-15 21:58:17.904069',0,'image for restaurant','MAIN','RE-KUPH0MRWND','restaurant1629039497883-0.jpg'),
+	 (172,'2021-08-15 21:58:17.905075','2021-08-15 21:58:17.905075',0,'image for restaurant','MAIN','RE-KUPH0MRWND','restaurant1629039497885-1.jpg');
+INSERT INTO public.restaurant_image (id,created_at,updated_at,"version",caption,image_type,restaurant_code,url) VALUES
+	 (173,'2021-08-15 21:58:17.905075','2021-08-15 21:58:17.905075',0,'image for restaurant','MAIN','RE-KUPH0MRWND','restaurant1629039497887-2.jpg'),
+	 (174,'2021-08-15 21:58:17.90607','2021-08-15 21:58:17.90607',0,'image for restaurant','MAIN','RE-KUPH0MRWND','restaurant1629039497889-3.jpg'),
+	 (175,'2021-08-15 21:58:17.906793','2021-08-15 21:58:17.906793',0,'image for restaurant','MAIN','RE-KUPH0MRWND','restaurant1629039497889-4.jpg'),
+	 (176,'2021-08-15 21:58:17.907068','2021-08-15 21:58:17.907068',0,'image for restaurant','MAIN','RE-KUPH0MRWND','restaurant1629039497890-5.jpg'),
+	 (177,'2021-08-15 21:58:17.907068','2021-08-15 21:58:17.907068',0,'image for restaurant','MAIN','RE-KUPH0MRWND','restaurant1629039497891-6.jpg'),
+	 (178,'2021-08-15 21:58:17.908068','2021-08-15 21:58:17.908068',0,'image for restaurant','MAIN','RE-KUPH0MRWND','restaurant1629039497896-7.jpg'),
+	 (179,'2021-08-15 21:58:17.908511','2021-08-15 21:58:17.908511',0,'image for restaurant','MAIN','RE-KUPH0MRWND','restaurant1629039497897-8.jpg'),
+	 (180,'2021-08-15 21:58:17.908511','2021-08-15 21:58:17.908511',0,'image for restaurant','MAIN','RE-KUPH0MRWND','restaurant1629039497898-9.jpg'),
+	 (181,'2021-08-15 21:58:17.909104','2021-08-15 21:58:17.909104',0,'image for restaurant','MAIN','RE-KUPH0MRWND','restaurant1629039497901-10.jpg'),
+	 (182,'2021-08-15 21:58:17.909104','2021-08-15 21:58:17.909104',0,'image for restaurant','MAIN','RE-KUPH0MRWND','restaurant1629039497902-11.jpg');
+INSERT INTO public.restaurant_image (id,created_at,updated_at,"version",caption,image_type,restaurant_code,url) VALUES
+	 (183,'2021-08-15 22:02:19.140673','2021-08-15 22:02:19.140673',0,'image for restaurant','MAIN','RE-CMRNDQMNSD','restaurant1629039739114-0.jpg'),
+	 (184,'2021-08-15 22:02:19.141676','2021-08-15 22:02:19.141676',0,'image for restaurant','MAIN','RE-CMRNDQMNSD','restaurant1629039739115-1.jpg'),
+	 (185,'2021-08-15 22:02:19.141676','2021-08-15 22:02:19.141676',0,'image for restaurant','MAIN','RE-CMRNDQMNSD','restaurant1629039739120-2.jpg'),
+	 (186,'2021-08-15 22:02:19.142154','2021-08-15 22:02:19.142154',0,'image for restaurant','MAIN','RE-CMRNDQMNSD','restaurant1629039739121-3.jpg'),
+	 (187,'2021-08-15 22:02:19.142154','2021-08-15 22:02:19.142154',0,'image for restaurant','MAIN','RE-CMRNDQMNSD','restaurant1629039739123-4.jpg'),
+	 (188,'2021-08-15 22:02:19.142672','2021-08-15 22:02:19.142672',0,'image for restaurant','MAIN','RE-CMRNDQMNSD','restaurant1629039739124-5.jpg'),
+	 (189,'2021-08-15 22:02:19.142672','2021-08-15 22:02:19.142672',0,'image for restaurant','MAIN','RE-CMRNDQMNSD','restaurant1629039739125-6.jpg'),
+	 (190,'2021-08-15 22:02:19.143674','2021-08-15 22:02:19.143674',0,'image for restaurant','MAIN','RE-CMRNDQMNSD','restaurant1629039739130-7.jpg'),
+	 (191,'2021-08-15 22:02:19.143674','2021-08-15 22:02:19.143674',0,'image for restaurant','MAIN','RE-CMRNDQMNSD','restaurant1629039739131-8.jpg'),
+	 (192,'2021-08-15 22:02:19.143674','2021-08-15 22:02:19.143674',0,'image for restaurant','MAIN','RE-CMRNDQMNSD','restaurant1629039739132-9.jpg');
+INSERT INTO public.restaurant_image (id,created_at,updated_at,"version",caption,image_type,restaurant_code,url) VALUES
+	 (193,'2021-08-15 22:02:19.143674','2021-08-15 22:02:19.143674',0,'image for restaurant','MAIN','RE-CMRNDQMNSD','restaurant1629039739133-10.jpg'),
+	 (194,'2021-08-15 22:02:19.144671','2021-08-15 22:02:19.144671',0,'image for restaurant','MAIN','RE-CMRNDQMNSD','restaurant1629039739138-11.jpg'),
+	 (238,'2021-08-16 16:25:40.830215','2021-08-16 16:25:40.830215',0,'image for restaurant','MAIN','RE-5ZLJSAHDRZ','restaurant1629105940755-0.jpg'),
+	 (239,'2021-08-16 16:25:40.835215','2021-08-16 16:25:40.835215',0,'image for restaurant','MAIN','RE-5ZLJSAHDRZ','restaurant1629105940760-1.jpg'),
+	 (240,'2021-08-16 16:25:40.835215','2021-08-16 16:25:40.835215',0,'image for restaurant','MAIN','RE-5ZLJSAHDRZ','restaurant1629105940766-2.jpg'),
+	 (241,'2021-08-16 16:25:40.835215','2021-08-16 16:25:40.835215',0,'image for restaurant','MAIN','RE-5ZLJSAHDRZ','restaurant1629105940772-3.jpg'),
+	 (242,'2021-08-16 16:25:40.836384','2021-08-16 16:25:40.836384',0,'image for restaurant','MAIN','RE-5ZLJSAHDRZ','restaurant1629105940777-4.jpg'),
+	 (243,'2021-08-16 16:25:40.836384','2021-08-16 16:25:40.836384',0,'image for restaurant','MAIN','RE-5ZLJSAHDRZ','restaurant1629105940782-5.jpg'),
+	 (244,'2021-08-16 16:25:40.837216','2021-08-16 16:25:40.837216',0,'image for restaurant','MAIN','RE-5ZLJSAHDRZ','restaurant1629105940787-6.jpg'),
+	 (245,'2021-08-16 16:25:40.837216','2021-08-16 16:25:40.837216',0,'image for restaurant','MAIN','RE-5ZLJSAHDRZ','restaurant1629105940791-7.jpg');
+INSERT INTO public.restaurant_image (id,created_at,updated_at,"version",caption,image_type,restaurant_code,url) VALUES
+	 (246,'2021-08-16 16:25:40.838217','2021-08-16 16:25:40.838217',0,'image for restaurant','MAIN','RE-5ZLJSAHDRZ','restaurant1629105940796-8.jpg'),
+	 (247,'2021-08-16 16:25:40.83883','2021-08-16 16:25:40.83883',0,'image for restaurant','MAIN','RE-5ZLJSAHDRZ','restaurant1629105940800-9.jpg'),
+	 (248,'2021-08-16 16:25:40.839217','2021-08-16 16:25:40.839217',0,'image for restaurant','MAIN','RE-5ZLJSAHDRZ','restaurant1629105940805-10.jpg'),
+	 (249,'2021-08-16 16:25:40.84025','2021-08-16 16:25:40.84025',0,'image for restaurant','MAIN','RE-5ZLJSAHDRZ','restaurant1629105940811-11.jpg'),
+	 (250,'2021-08-16 16:25:40.84025','2021-08-16 16:25:40.84025',0,'image for restaurant','MAIN','RE-5ZLJSAHDRZ','restaurant1629105940815-12.jpg'),
+	 (251,'2021-08-16 16:25:40.841218','2021-08-16 16:25:40.841218',0,'image for restaurant','MAIN','RE-5ZLJSAHDRZ','restaurant1629105940820-13.jpg'),
+	 (257,'2021-08-16 16:35:32.473305','2021-08-16 16:35:32.473305',0,'image for restaurant','MAIN','RE-OPDOEGVVVT','restaurant1629106532407-1.jpg'),
+	 (258,'2021-08-16 16:35:32.474446','2021-08-16 16:35:32.474446',0,'image for restaurant','MAIN','RE-OPDOEGVVVT','restaurant1629106532414-2.jpg'),
+	 (259,'2021-08-16 16:35:32.47508','2021-08-16 16:35:32.47508',0,'image for restaurant','MAIN','RE-OPDOEGVVVT','restaurant1629106532421-3.jpg'),
+	 (260,'2021-08-16 16:35:32.475471','2021-08-16 16:35:32.475471',0,'image for restaurant','MAIN','RE-OPDOEGVVVT','restaurant1629106532425-4.jpg');
+INSERT INTO public.restaurant_image (id,created_at,updated_at,"version",caption,image_type,restaurant_code,url) VALUES
+	 (261,'2021-08-16 16:35:32.475471','2021-08-16 16:35:32.475471',0,'image for restaurant','MAIN','RE-OPDOEGVVVT','restaurant1629106532432-5.jpg'),
+	 (262,'2021-08-16 16:35:32.476459','2021-08-16 16:35:32.476459',0,'image for restaurant','MAIN','RE-OPDOEGVVVT','restaurant1629106532437-6.jpg'),
+	 (263,'2021-08-16 16:35:32.476459','2021-08-16 16:35:32.476459',0,'image for restaurant','MAIN','RE-OPDOEGVVVT','restaurant1629106532441-7.jpg'),
+	 (264,'2021-08-16 16:35:32.477186','2021-08-16 16:35:32.477186',0,'image for restaurant','MAIN','RE-OPDOEGVVVT','restaurant1629106532447-8.jpg'),
+	 (265,'2021-08-16 16:35:32.477492','2021-08-16 16:35:32.477492',0,'image for restaurant','MAIN','RE-OPDOEGVVVT','restaurant1629106532452-9.jpg'),
+	 (266,'2021-08-16 16:35:32.477492','2021-08-16 16:35:32.477492',0,'image for restaurant','MAIN','RE-OPDOEGVVVT','restaurant1629106532456-10.jpg'),
+	 (267,'2021-08-16 16:35:32.478494','2021-08-16 16:35:32.478494',0,'image for restaurant','MAIN','RE-OPDOEGVVVT','restaurant1629106532461-11.jpg'),
+	 (268,'2021-08-16 16:35:32.478494','2021-08-16 16:35:32.478494',0,'image for restaurant','MAIN','RE-OPDOEGVVVT','restaurant1629106532466-12.jpg'),
+	 (256,'2021-08-16 16:35:32.471304','2021-08-16 16:35:32.471304',0,'image for restaurant','MAIN','RE-OPDOEGVVVT','restaurant1629106532441-7.jpg'),
+	 (272,'2021-08-16 17:04:00.330969','2021-08-16 17:04:00.330969',0,'image for restaurant','MAIN','RE-5WSASR6JIB','restaurant1629108240163-0.jpg');
+INSERT INTO public.restaurant_image (id,created_at,updated_at,"version",caption,image_type,restaurant_code,url) VALUES
+	 (273,'2021-08-16 17:04:00.332817','2021-08-16 17:04:00.332817',0,'image for restaurant','MAIN','RE-5WSASR6JIB','restaurant1629108240282-1.jpg'),
+	 (274,'2021-08-16 17:04:00.333353','2021-08-16 17:04:00.333353',0,'image for restaurant','MAIN','RE-5WSASR6JIB','restaurant1629108240290-2.jpg'),
+	 (275,'2021-08-16 17:04:00.333881','2021-08-16 17:04:00.333881',0,'image for restaurant','MAIN','RE-5WSASR6JIB','restaurant1629108240295-3.jpg'),
+	 (276,'2021-08-16 17:04:00.333881','2021-08-16 17:04:00.333881',0,'image for restaurant','MAIN','RE-5WSASR6JIB','restaurant1629108240302-4.jpg'),
+	 (277,'2021-08-16 17:04:00.334621','2021-08-16 17:04:00.334621',0,'image for restaurant','MAIN','RE-5WSASR6JIB','restaurant1629108240309-5.jpg'),
+	 (278,'2021-08-16 17:04:00.334816','2021-08-16 17:04:00.334816',0,'image for restaurant','MAIN','RE-5WSASR6JIB','restaurant1629108240316-6.jpg'),
+	 (279,'2021-08-16 17:04:00.334816','2021-08-16 17:04:00.334816',0,'image for restaurant','MAIN','RE-5WSASR6JIB','restaurant1629108240323-7.jpg'),
+	 (283,'2021-08-16 17:06:02.646033','2021-08-16 17:06:02.646033',0,'image for room hotel','ROOM','RE-5WSASR6JIB','hotel-room-1629108362637.jpg');

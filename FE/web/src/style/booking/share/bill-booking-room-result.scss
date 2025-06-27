@@ -1,0 +1,82 @@
+@import "../../common.scss";
+@import "../share/bill-booking-room.scss";
+
+#bill__room--result {
+    // position: sticky;
+    // top: 100px;
+    margin-top: 30px;
+    padding-left: 10px !important;
+    .main__bill {
+        h5.title {
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: capitalize;
+            margin-bottom: 15px;
+            @media (max-width: 1024px) {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+        }
+        .top__content {
+            padding: 10px 10px;
+            background-color: #f2f2f2;
+            margin: 0 -10px;
+            p {
+                display: flex;
+                justify-content: space-between;
+                font-weight: 500;
+                margin: 0;
+                font-size: 16px;
+                text-transform: capitalize;
+                @media (max-width: 1024px) {
+                    font-size: 14px;
+                }
+            }
+            p.time__booking {
+                margin-bottom: 5px;
+            }
+        }
+        .middle__content {
+            margin: 10px 0;
+            p {
+                display: flex;
+                justify-content: space-between;
+                font-weight: 500;
+                margin: 0 0 5px 0;
+                font-size: 16px;
+                text-transform: capitalize;
+                @media (max-width: 1024px) {
+                    font-size: 14px;
+                }
+            }
+            p.tax__include{
+                font-size: 14px;
+            }
+        }
+        .total__price {
+            background-color: #dfffde;
+            margin: 0 -10px;
+            padding: 15px 10px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            @media (max-width: 1024px) {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+        .total__fee{
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: capitalize;
+            display: flex;
+            justify-content: space-between;
+            @media (max-width: 1024px) {
+                font-size: 14px;
+            }
+        }
+    }
+}

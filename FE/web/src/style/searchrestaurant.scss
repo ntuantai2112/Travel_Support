@@ -1,0 +1,83 @@
+.wrapper__search {
+    .row__info {
+        .status {
+            p.title__status {
+                text-align: left;
+                text-transform: capitalize;
+                font-size: 16px;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+                @media (max-width: 1024px){
+                    font-size: 14px;
+                }
+                .count__comment{
+                    text-decoration: underline;
+                    font-size: 14px;
+                    cursor: pointer;
+                    font-weight: 300 !important;
+                    @media(max-width: 1024px){
+                        font-size: 12px;
+                    }
+                }
+                .wrapper__rating--star{
+                    margin-left: 20px;
+                    @media(max-width: 1024px){
+                        font-size: 15px;
+                    }
+                }
+            }
+            
+            .info{
+                p.type__restaurant{
+                    font-size: 18px;
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    text-align: left;
+                    margin: 0;
+                    @media(max-width: 1024px){
+                        font-size: 16px;
+                    }
+                }
+                p.address{
+                    font-size: 18px;
+                    font-weight: 500;
+                    text-transform: capitalize ;
+                    text-align: left;
+                    margin: 0;
+                    @media(max-width: 1024px){
+                        font-size: 16px;
+                    }
+                    
+                }
+            }
+            .menu{
+                text-align: left;
+                font-size: 16px;
+                font-weight: bold;
+                margin-top: 30px;
+                cursor: pointer;
+                @media(max-width: 1024px){
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+.search__restaurant {
+    header {
+        .wrapper__header {
+            .col-menu {
+                ul {
+                    li.restaurant {
+                        background-color: #2d79a4 !important;
+                    }
+                }
+            }
+        }
+    }
+    .row__search-page{
+        margin-top: 30px;
+    }
+}

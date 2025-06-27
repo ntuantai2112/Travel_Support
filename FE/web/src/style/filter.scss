@@ -1,0 +1,58 @@
+@import 'common.scss';
+
+//filter__hotel
+.wrapper__filter--hotel {
+    width: 100%;
+    margin-top: 30px;
+    position: sticky;
+    top: 100px;
+    .wrapper__covid {
+        width: 100%;
+        text-align: left;
+        font-size: 21px;
+        h4.title {
+            font-size: 21px;
+            font-weight: Bold;
+            sup {
+                margin-left: 3px;
+                font-size: 12px;
+            }
+        }
+        i.text {
+            font-size: 12px;
+            text-transform: capitalize;
+            font-weight: 500;
+        }
+    }
+    .wrapper__main--filter {
+        margin-top: 20px;
+        border-left: 2px solid #f2f2f2;
+        padding-left: 10px;
+        .rank__hotel, .type__hotel {
+            h5.title {
+                font-size: 18px;
+                font-weight: bold;
+                text-align: left;
+            }
+            ul.list__filter {
+                @include ul__list--filter; //common
+            }
+        }
+        .show-more{
+            display: flex;
+            cursor: pointer;
+            font-size: 12px;
+            text-align: left;
+            text-decoration: underline;
+            font-weight: 500;
+            span.icon{
+                margin-left: 3px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+}
+
+//filter_Share

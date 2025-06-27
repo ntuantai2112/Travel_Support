@@ -1,0 +1,141 @@
+@import "../common.scss";
+
+* {
+    hr {
+        margin: 10px 0 15px 0 !important;
+    }
+    label {
+        text-transform: capitalize;
+        font-weight: 500;
+        font-size: 16px;
+        @media (max-width: 1024px) {
+            font-size: 14px;
+        }
+    }
+    h4.title {
+        margin: 0;
+        padding: 0;
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: capitalize;
+        @media (max-width: 1024px) {
+            font-size: 18px;
+        }
+    }
+}
+
+#booking__room--result {
+    margin-top: 80px;
+    .row__main {
+        width: 100%;
+        margin: 0;
+        .col__booking {
+            padding: 0 !important;
+        }
+        .col__bill{
+            padding: 0 !important;
+        }
+    }
+    .alert__success {
+        margin-top: 30px;
+        width: 100%;
+        padding: 15px 50px 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        background-color: #2d79a4;
+        .content {
+            font-size: 18px;
+            font-weight: 500;
+            color: #fff;
+            text-transform: capitalize;
+            @media (max-width: 1024px){
+                font-size: 16px;
+            }
+            #icon__back{
+                margin-right: 20px;
+                cursor: pointer;
+                @media (max-width: 1024px){
+                    margin-right: 10px;
+                }
+            }
+        }
+        .right__content{
+            cursor: pointer;
+        }
+    }
+}
+
+.wrapper__booking-room--result {
+    margin-top: 50px;
+    .result__booking {
+        .hotel__detail {
+            #first__detail,
+            #second__detail,
+            #third__detail {
+                display: flex;
+                flex-direction: row;
+                margin: 0;
+                .col__content {
+                    padding: 0;
+                    p {
+                        margin-bottom: 5px;
+                        font-size: 16px;
+                      
+                        @media(max-width:1024px){
+                            font-size: 14px;
+                        }
+                    }
+                    .bold__text {
+                        font-weight: 500;
+                    }
+                    .text-upper {
+                        text-transform: uppercase;
+                    }
+                    p.phone__number,
+                    p.time__checkout {
+                        margin-bottom: 20px;
+                    }
+                    .color__status {
+                        color: #10c800;
+                    }
+                }
+            }
+        }
+        .cancel__policy, .hotel__policy {
+            .content__policy {
+                margin: 0;
+                font-size: 16px;
+                text-transform: capitalize;
+                @media (max-width: 1024px) {
+                    font-size: 14px;
+                }
+            }
+            .mg-top{
+                margin-top: 20px;
+            }
+            .bolder__text{
+                font-weight: 500;
+            }
+        }
+        .hotel__policy, .important__info {
+            h4.title {
+                position: relative;
+                span.wrap__section {
+                    display: inline-flex;
+                    top: 0;
+                    right: 0;
+                    position: absolute;
+                    cursor: pointer;
+                    #wrap-btn {
+                        width: 21px;
+                        height: 21px;
+                    }
+                }
+            }
+            ul{
+                margin-bottom: 30px;
+            }
+    
+        }
+    }
+}

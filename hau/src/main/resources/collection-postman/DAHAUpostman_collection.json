@@ -1,0 +1,215 @@
+{
+	"info": {
+		"_postman_id": "4f2d532e-888d-47f3-8402-3c5eb5218029",
+		"name": "DAHAU",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Upload Hotel",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "imageList",
+							"description": "Chọn list ảnh ở đây",
+							"type": "file",
+							"src": [
+								"/C:/Users/Travala-Justin/Desktop/background/battlefield2042_w3840_h1080_cw3840_ch1080.png",
+								"/C:/Users/Travala-Justin/Desktop/background/ourneighborhood_w3840_h1080_cw3840_ch1080.jpg"
+							]
+						},
+						{
+							"key": "amenities",
+							"value": "1,2",
+							"description": "cái này sẽ làm dialog chọn các tiện ích của hotel",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Đây là description cho hotel",
+							"description": "Mô tả của hotel",
+							"type": "text"
+						},
+						{
+							"key": "destination",
+							"value": "351",
+							"description": "cái này hiện tại cũng làm dialog cho người dùng chọn, mình sẽ gửi ID lên để BE lưu",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "POPULAR",
+							"description": "cái này define dialog có 4 lựa chọn",
+							"type": "text"
+						},
+						{
+							"key": "rank",
+							"value": "4",
+							"description": "này rank xếp hạng của hotel, nên limit từ 1-5",
+							"type": "text"
+						},
+						{
+							"key": "star",
+							"value": "5",
+							"description": "tương tự như rank",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "Đây là hotel test",
+							"description": "Đây là tiêu đề của khác sạn",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8888/qldv/partner/hotel/upload",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"qldv",
+						"partner",
+						"hotel",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload Hotel Room",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "imageList",
+							"description": "Chọn list ảnh từng phòng cho hotel",
+							"type": "file",
+							"src": [
+								"/C:/Users/Travala-Justin/Desktop/background/battlefield2042_w3840_h1080_cw3840_ch1080.png",
+								"/C:/Users/Travala-Justin/Desktop/background/ourneighborhood_w3840_h1080_cw3840_ch1080.jpg"
+							]
+						},
+						{
+							"key": "price",
+							"value": "10000",
+							"description": "giá của hotel",
+							"type": "text"
+						},
+						{
+							"key": "hotelOptionCode",
+							"value": "ROOM1",
+							"description": "mã của phòng người dùng tuỳ ý đặt, nên có quy tắc",
+							"type": "text"
+						},
+						{
+							"key": "hotelCode",
+							"value": "HO-PDGM101GXE",
+							"description": "Mã khách sạn muốn thêm phòng, cái này sẽ lấy từ 1 api get chi tiết khách sạn khi người dùng bấm vào\n",
+							"type": "text"
+						},
+						{
+							"key": "currency",
+							"value": "VNĐ",
+							"description": "Đơn vị giá tiền của phòng, cái này default là vnđ, k truyền lên cũng được",
+							"type": "text"
+						},
+						{
+							"key": "type",
+							"value": "SINGLE",
+							"description": "dialog : SINGLE,DOUBLE,SUITE",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8888/qldv/partner/hotel/room/upload",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"qldv",
+						"partner",
+						"hotel",
+						"room",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Detail Hotel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8888/qldv/hotel/ay-la-hotel-testho-pdgm101gxe",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"qldv",
+						"hotel",
+						"ay-la-hotel-testho-pdgm101gxe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Hotel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8888/qldv/search/search-filter?destId=351&star=5&type=POPULAR",
+					"host": [
+						"localhost"
+					],
+					"port": "8888",
+					"path": [
+						"qldv",
+						"search",
+						"search-filter"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "hanoi",
+							"description": "q là text người dùng nhập trên thanh search",
+							"disabled": true
+						},
+						{
+							"key": "destId",
+							"value": "351",
+							"description": "cái này là search theo thành phố, mã này là mã của thành phố , \nđang tìm cách để Fe truyền lên dễ nhất"
+						},
+						{
+							"key": "star",
+							"value": "5",
+							"description": "Filter theo số sao của hotel"
+						},
+						{
+							"key": "type",
+							"value": "POPULAR",
+							"description": "Filter theo loại khách sạn"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

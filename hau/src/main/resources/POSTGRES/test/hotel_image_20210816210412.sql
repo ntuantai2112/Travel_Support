@@ -1,0 +1,93 @@
+INSERT INTO public.hotel_image (id,created_at,updated_at,"version",caption,hotel_code,image_type,url) VALUES
+	 (22,'2021-08-04 10:26:07.407525','2021-08-04 10:26:07.407525',0,'image for hotel','HO-6JPSPYAIDM','MAIN','hotel1628047567338-0.jpg'),
+	 (23,'2021-08-04 10:26:07.431533','2021-08-04 10:26:07.431533',0,'image for hotel','HO-6JPSPYAIDM','MAIN','hotel1628047567354-1.JPG'),
+	 (24,'2021-08-04 10:26:07.432582','2021-08-04 10:26:07.432582',0,'image for hotel','HO-6JPSPYAIDM','MAIN','hotel1628047567365-2.jpg'),
+	 (26,'2021-08-04 10:28:16.88633','2021-08-04 10:28:16.88633',0,'image for room hotel','HO-6JPSPYAIDM','ROOM','hotel-room-1628047696871.JPG'),
+	 (82,'2021-08-10 15:01:33.072874','2021-08-10 15:01:33.072874',0,'image for room hotel','HO-6JPSPYAIDM','ROOM','hotel-room-1628047696871.JPG'),
+	 (84,'2021-08-12 20:49:14.958002','2021-08-12 20:49:14.958002',0,'image for hotel','HO-FSKNE1RQSQ','MAIN','hotel1628776154707-0.jpg'),
+	 (85,'2021-08-12 20:49:14.979969','2021-08-12 20:49:14.979969',0,'image for hotel','HO-FSKNE1RQSQ','MAIN','hotel1628776154710-1.jpg'),
+	 (86,'2021-08-12 20:49:14.980996','2021-08-12 20:49:14.980996',0,'image for hotel','HO-FSKNE1RQSQ','MAIN','hotel1628776154716-2.jpg'),
+	 (87,'2021-08-12 23:02:47.659062','2021-08-12 23:02:47.659062',0,'image for hotel','HO-6JPSPYAIDM','MAIN','hotel1628784167316-0.jpg'),
+	 (88,'2021-08-12 23:02:47.705416','2021-08-12 23:02:47.705416',0,'image for hotel','HO-6JPSPYAIDM','MAIN','hotel1628784167582-1.jpg');
+INSERT INTO public.hotel_image (id,created_at,updated_at,"version",caption,hotel_code,image_type,url) VALUES
+	 (89,'2021-08-12 23:08:32.89619','2021-08-12 23:08:32.89619',0,'image for room hotel','HO-FSKNE1RQSQ','ROOM','hotel-room-1628784512887.jpg'),
+	 (90,'2021-08-12 23:09:15.371694','2021-08-12 23:09:15.371694',0,'image for room hotel','HO-FSKNE1RQSQ','ROOM','hotel-room-1628784555366.jpg'),
+	 (91,'2021-08-12 23:12:42.209116','2021-08-12 23:12:42.209116',0,'image for room hotel','HO-FSKNE1RQSQ','ROOM','hotel-room-1628784762106.jpg'),
+	 (92,'2021-08-12 23:14:05.405727','2021-08-12 23:14:05.405727',0,'image for room hotel','HO-FSKNE1RQSQ','ROOM','hotel-room-1628784845403.jpg'),
+	 (93,'2021-08-12 23:14:50.81751','2021-08-12 23:14:50.81751',0,'image for room hotel','HO-FSKNE1RQSQ','ROOM','hotel-room-1628784890815.jpg'),
+	 (94,'2021-08-12 23:18:57.669411','2021-08-12 23:18:57.669411',0,'image for room hotel','HO-FSKNE1RQSQ','ROOM','hotel-room-1628785137659.jpg'),
+	 (95,'2021-08-12 23:20:02.688689','2021-08-12 23:20:02.688689',0,'image for room hotel','HO-FSKNE1RQSQ','ROOM','hotel-room-1628785202686.jpg'),
+	 (97,'2021-08-12 23:20:16.536531','2021-08-12 23:20:16.536531',0,'image for room hotel','HO-FSKNE1RQSQ','ROOM','hotel-room-1628785216527.jpg'),
+	 (126,'2021-08-15 20:52:16.134935','2021-08-15 20:52:16.134935',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536029-0.jpg'),
+	 (127,'2021-08-15 20:52:16.152937','2021-08-15 20:52:16.152937',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536035-1.jpg');
+INSERT INTO public.hotel_image (id,created_at,updated_at,"version",caption,hotel_code,image_type,url) VALUES
+	 (128,'2021-08-15 20:52:16.152937','2021-08-15 20:52:16.152937',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536040-2.jpg'),
+	 (129,'2021-08-15 20:52:16.154082','2021-08-15 20:52:16.154082',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536046-3.jpg'),
+	 (130,'2021-08-15 20:52:16.154082','2021-08-15 20:52:16.154082',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536051-4.jpg'),
+	 (131,'2021-08-15 20:52:16.154935','2021-08-15 20:52:16.154935',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536056-5.jpg'),
+	 (132,'2021-08-15 20:52:16.154935','2021-08-15 20:52:16.154935',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536060-6.jpg'),
+	 (133,'2021-08-15 20:52:16.155938','2021-08-15 20:52:16.155938',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536065-7.jpg'),
+	 (134,'2021-08-15 20:52:16.156496','2021-08-15 20:52:16.156496',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536070-8.jpg'),
+	 (135,'2021-08-15 20:52:16.156936','2021-08-15 20:52:16.156936',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536074-9.jpg'),
+	 (136,'2021-08-15 20:52:16.156936','2021-08-15 20:52:16.156936',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536081-10.jpg'),
+	 (137,'2021-08-15 20:52:16.157939','2021-08-15 20:52:16.157939',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536086-11.jpg');
+INSERT INTO public.hotel_image (id,created_at,updated_at,"version",caption,hotel_code,image_type,url) VALUES
+	 (138,'2021-08-15 20:52:16.157939','2021-08-15 20:52:16.157939',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536091-12.jpg'),
+	 (139,'2021-08-15 20:52:16.158938','2021-08-15 20:52:16.158938',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536096-13.jpg'),
+	 (140,'2021-08-15 20:52:16.158938','2021-08-15 20:52:16.158938',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536101-14.jpg'),
+	 (141,'2021-08-15 20:52:16.160265','2021-08-15 20:52:16.160265',0,'image for hotel','HO-JPSVHOH4VC','MAIN','hotel1629035536106-15.jpg'),
+	 (144,'2021-08-15 21:02:29.657655','2021-08-15 21:02:29.657655',0,'image for room hotel','HO-JPSVHOH4VC','ROOM','hotel-room-1629036125716.jpg'),
+	 (142,'2021-08-15 20:54:52.080754','2021-08-15 20:54:52.080754',0,'image for room hotel','HO-JPSVHOH4VC','ROOM','hotel-room-1629036125716.jpg'),
+	 (148,'2021-08-15 21:24:34.524323','2021-08-15 21:24:34.524323',0,'image for room hotel','HO-JPSVHOH4VC','ROOM','hotel-room-1629037474519.jpg'),
+	 (198,'2021-08-16 00:06:48.899727','2021-08-16 00:06:48.899727',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208771-0.jpg'),
+	 (199,'2021-08-16 00:06:48.902729','2021-08-16 00:06:48.902729',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208781-1.jpg'),
+	 (200,'2021-08-16 00:06:48.902729','2021-08-16 00:06:48.902729',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208788-2.jpg');
+INSERT INTO public.hotel_image (id,created_at,updated_at,"version",caption,hotel_code,image_type,url) VALUES
+	 (201,'2021-08-16 00:06:48.903727','2021-08-16 00:06:48.903727',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208795-3.jpg'),
+	 (202,'2021-08-16 00:06:48.903727','2021-08-16 00:06:48.903727',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208805-4.jpg'),
+	 (203,'2021-08-16 00:06:48.904728','2021-08-16 00:06:48.904728',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208813-5.jpg'),
+	 (204,'2021-08-16 00:06:48.904728','2021-08-16 00:06:48.904728',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208820-6.jpg'),
+	 (205,'2021-08-16 00:06:48.904728','2021-08-16 00:06:48.904728',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208827-7.jpg'),
+	 (206,'2021-08-16 00:06:48.905727','2021-08-16 00:06:48.905727',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208836-8.jpg'),
+	 (207,'2021-08-16 00:06:48.905727','2021-08-16 00:06:48.905727',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208841-9.jpg'),
+	 (208,'2021-08-16 00:06:48.905727','2021-08-16 00:06:48.905727',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208848-10.jpg'),
+	 (209,'2021-08-16 00:06:48.906728','2021-08-16 00:06:48.906728',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208856-11.jpg'),
+	 (210,'2021-08-16 00:06:48.906728','2021-08-16 00:06:48.906728',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208864-12.jpg');
+INSERT INTO public.hotel_image (id,created_at,updated_at,"version",caption,hotel_code,image_type,url) VALUES
+	 (211,'2021-08-16 00:06:48.90773','2021-08-16 00:06:48.90773',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208870-13.jpg'),
+	 (212,'2021-08-16 00:06:48.90773','2021-08-16 00:06:48.90773',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208877-14.jpg'),
+	 (213,'2021-08-16 00:06:48.90773','2021-08-16 00:06:48.90773',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208884-15.jpg'),
+	 (214,'2021-08-16 00:06:48.908864','2021-08-16 00:06:48.908864',0,'image for hotel','HO-SGWL4ZRA24','MAIN','hotel1629047208891-16.jpg'),
+	 (219,'2021-08-16 16:03:36.835418','2021-08-16 16:03:36.835418',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616716-0.jpg'),
+	 (220,'2021-08-16 16:03:36.862333','2021-08-16 16:03:36.862333',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616722-1.jpg'),
+	 (221,'2021-08-16 16:03:36.864336','2021-08-16 16:03:36.864336',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616728-2.jpg'),
+	 (222,'2021-08-16 16:03:36.865339','2021-08-16 16:03:36.865339',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616734-3.jpg'),
+	 (223,'2021-08-16 16:03:36.865339','2021-08-16 16:03:36.865339',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616738-4.jpg'),
+	 (224,'2021-08-16 16:03:36.866333','2021-08-16 16:03:36.866333',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616743-5.jpg');
+INSERT INTO public.hotel_image (id,created_at,updated_at,"version",caption,hotel_code,image_type,url) VALUES
+	 (225,'2021-08-16 16:03:36.867333','2021-08-16 16:03:36.867333',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616748-6.jpg'),
+	 (226,'2021-08-16 16:03:36.867333','2021-08-16 16:03:36.867333',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616754-7.jpg'),
+	 (227,'2021-08-16 16:03:36.868404','2021-08-16 16:03:36.868404',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616759-8.jpg'),
+	 (228,'2021-08-16 16:03:36.869396','2021-08-16 16:03:36.869396',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616765-9.jpg'),
+	 (229,'2021-08-16 16:03:36.870333','2021-08-16 16:03:36.870333',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616771-10.jpg'),
+	 (230,'2021-08-16 16:03:36.870333','2021-08-16 16:03:36.870333',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616776-11.jpg'),
+	 (231,'2021-08-16 16:03:36.871369','2021-08-16 16:03:36.871369',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616781-12.jpg'),
+	 (232,'2021-08-16 16:03:36.871664','2021-08-16 16:03:36.871664',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616787-13.jpg'),
+	 (233,'2021-08-16 16:03:36.872357','2021-08-16 16:03:36.872357',0,'image for hotel','HO-8LJNJHOBLD','MAIN','hotel1629104616793-14.jpg'),
+	 (308,'2021-08-16 20:33:33.158383','2021-08-16 20:33:33.158383',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813046-0.jpg');
+INSERT INTO public.hotel_image (id,created_at,updated_at,"version",caption,hotel_code,image_type,url) VALUES
+	 (309,'2021-08-16 20:33:33.163484','2021-08-16 20:33:33.163484',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813053-1.jpg'),
+	 (310,'2021-08-16 20:33:33.164424','2021-08-16 20:33:33.164424',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813060-2.jpg'),
+	 (311,'2021-08-16 20:33:33.164481','2021-08-16 20:33:33.164481',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813066-3.jpg'),
+	 (312,'2021-08-16 20:33:33.165487','2021-08-16 20:33:33.165487',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813073-4.jpg'),
+	 (313,'2021-08-16 20:33:33.165487','2021-08-16 20:33:33.165487',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813081-5.jpg'),
+	 (314,'2021-08-16 20:33:33.166485','2021-08-16 20:33:33.166485',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813086-6.jpg'),
+	 (315,'2021-08-16 20:33:33.166989','2021-08-16 20:33:33.166989',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813092-7.jpg'),
+	 (316,'2021-08-16 20:33:33.167484','2021-08-16 20:33:33.167484',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813102-8.jpg'),
+	 (317,'2021-08-16 20:33:33.168483','2021-08-16 20:33:33.168483',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813109-9.jpg'),
+	 (318,'2021-08-16 20:33:33.168483','2021-08-16 20:33:33.168483',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813116-10.jpg');
+INSERT INTO public.hotel_image (id,created_at,updated_at,"version",caption,hotel_code,image_type,url) VALUES
+	 (319,'2021-08-16 20:33:33.169483','2021-08-16 20:33:33.169483',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813124-11.jpg'),
+	 (320,'2021-08-16 20:33:33.169483','2021-08-16 20:33:33.169483',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813132-12.jpg'),
+	 (321,'2021-08-16 20:33:33.169483','2021-08-16 20:33:33.169483',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813138-13.jpg'),
+	 (322,'2021-08-16 20:33:33.170484','2021-08-16 20:33:33.170484',0,'image for hotel','HO-0XIJCSDYFA','MAIN','hotel1629120813144-14.jpg');

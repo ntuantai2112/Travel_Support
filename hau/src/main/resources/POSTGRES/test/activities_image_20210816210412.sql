@@ -1,0 +1,50 @@
+INSERT INTO public.activities_image (id,created_at,updated_at,"version",activities_code,caption,url) VALUES
+	 (149,'2021-08-15 21:45:12.180942','2021-08-15 21:45:12.180942',0,'AC-BNPGVOCLYF','image for activities','activities1629038712129-0.jfif'),
+	 (150,'2021-08-15 21:45:12.184942','2021-08-15 21:45:12.184942',0,'AC-BNPGVOCLYF','image for activities','activities1629038712135-1.jfif'),
+	 (151,'2021-08-15 21:45:12.18556','2021-08-15 21:45:12.18556',0,'AC-BNPGVOCLYF','image for activities','activities1629038712138-2.jfif'),
+	 (152,'2021-08-15 21:45:12.186013','2021-08-15 21:45:12.186013',0,'AC-BNPGVOCLYF','image for activities','activities1629038712143-3.png'),
+	 (153,'2021-08-15 21:45:12.186013','2021-08-15 21:45:12.186013',0,'AC-BNPGVOCLYF','image for activities','activities1629038712148-4.jfif'),
+	 (154,'2021-08-15 21:45:12.186976','2021-08-15 21:45:12.186976',0,'AC-BNPGVOCLYF','image for activities','activities1629038712152-5.jfif'),
+	 (155,'2021-08-15 21:45:12.187528','2021-08-15 21:45:12.187528',0,'AC-BNPGVOCLYF','image for activities','activities1629038712156-6.jfif'),
+	 (156,'2021-08-15 21:45:12.187943','2021-08-15 21:45:12.187943',0,'AC-BNPGVOCLYF','image for activities','activities1629038712160-7.jfif'),
+	 (157,'2021-08-15 21:45:12.188945','2021-08-15 21:45:12.188945',0,'AC-BNPGVOCLYF','image for activities','activities1629038712165-8.jfif'),
+	 (158,'2021-08-15 21:45:12.188945','2021-08-15 21:45:12.188945',0,'AC-BNPGVOCLYF','image for activities','activities1629038712169-9.jfif');
+INSERT INTO public.activities_image (id,created_at,updated_at,"version",activities_code,caption,url) VALUES
+	 (284,'2021-08-16 19:17:17.008243','2021-08-16 19:17:17.008243',0,'AC-FJKFVJHGE0','image for activities','activities1629116236902-0.jpg'),
+	 (285,'2021-08-16 19:17:17.035245','2021-08-16 19:17:17.035245',0,'AC-FJKFVJHGE0','image for activities','activities1629116236912-1.jpg'),
+	 (286,'2021-08-16 19:17:17.036245','2021-08-16 19:17:17.036245',0,'AC-FJKFVJHGE0','image for activities','activities1629116236917-2.jpg'),
+	 (287,'2021-08-16 19:17:17.037212','2021-08-16 19:17:17.037212',0,'AC-FJKFVJHGE0','image for activities','activities1629116236922-3.jpg'),
+	 (288,'2021-08-16 19:17:17.037212','2021-08-16 19:17:17.037212',0,'AC-FJKFVJHGE0','image for activities','activities1629116236929-4.jpg'),
+	 (289,'2021-08-16 19:17:17.038247','2021-08-16 19:17:17.038247',0,'AC-FJKFVJHGE0','image for activities','activities1629116236935-5.jpg'),
+	 (290,'2021-08-16 19:17:17.03878','2021-08-16 19:17:17.03878',0,'AC-FJKFVJHGE0','image for activities','activities1629116236940-6.jpg'),
+	 (291,'2021-08-16 19:17:17.039246','2021-08-16 19:17:17.039246',0,'AC-FJKFVJHGE0','image for activities','activities1629116236947-7.jpg'),
+	 (292,'2021-08-16 19:17:17.04021','2021-08-16 19:17:17.04021',0,'AC-FJKFVJHGE0','image for activities','activities1629116236953-8.jpg'),
+	 (293,'2021-08-16 19:17:17.040724','2021-08-16 19:17:17.040724',0,'AC-FJKFVJHGE0','image for activities','activities1629116236957-9.jpg');
+INSERT INTO public.activities_image (id,created_at,updated_at,"version",activities_code,caption,url) VALUES
+	 (294,'2021-08-16 19:17:17.041221','2021-08-16 19:17:17.041221',0,'AC-FJKFVJHGE0','image for activities','activities1629116236963-10.jpg'),
+	 (295,'2021-08-16 19:17:17.04221','2021-08-16 19:17:17.04221',0,'AC-FJKFVJHGE0','image for activities','activities1629116236969-11.jpg'),
+	 (296,'2021-08-16 19:24:31.296549','2021-08-16 19:24:31.296549',0,'AC-GYZ5LQ1ZWB','image for activities','activities1629116671206-0.jpg'),
+	 (297,'2021-08-16 19:24:31.297715','2021-08-16 19:24:31.297715',0,'AC-GYZ5LQ1ZWB','image for activities','activities1629116671214-1.jpg'),
+	 (298,'2021-08-16 19:24:31.298549','2021-08-16 19:24:31.298549',0,'AC-GYZ5LQ1ZWB','image for activities','activities1629116671229-2.jpg'),
+	 (299,'2021-08-16 19:24:31.299589','2021-08-16 19:24:31.299589',0,'AC-GYZ5LQ1ZWB','image for activities','activities1629116671236-3.jpg'),
+	 (300,'2021-08-16 19:24:31.300831','2021-08-16 19:24:31.300831',0,'AC-GYZ5LQ1ZWB','image for activities','activities1629116671246-4.jpg'),
+	 (301,'2021-08-16 19:24:31.300831','2021-08-16 19:24:31.300831',0,'AC-GYZ5LQ1ZWB','image for activities','activities1629116671251-5.jpg'),
+	 (302,'2021-08-16 19:24:31.301583','2021-08-16 19:24:31.301583',0,'AC-GYZ5LQ1ZWB','image for activities','activities1629116671257-6.jpg'),
+	 (303,'2021-08-16 19:24:31.302382','2021-08-16 19:24:31.302382',0,'AC-GYZ5LQ1ZWB','image for activities','activities1629116671263-7.jpg');
+INSERT INTO public.activities_image (id,created_at,updated_at,"version",activities_code,caption,url) VALUES
+	 (304,'2021-08-16 19:24:31.302547','2021-08-16 19:24:31.302547',0,'AC-GYZ5LQ1ZWB','image for activities','activities1629116671268-8.jpg'),
+	 (305,'2021-08-16 19:24:31.302547','2021-08-16 19:24:31.302547',0,'AC-GYZ5LQ1ZWB','image for activities','activities1629116671274-9.jpg'),
+	 (306,'2021-08-16 19:24:31.303545','2021-08-16 19:24:31.303545',0,'AC-GYZ5LQ1ZWB','image for activities','activities1629116671283-10.jpg'),
+	 (307,'2021-08-16 19:24:31.304269','2021-08-16 19:24:31.304269',0,'AC-GYZ5LQ1ZWB','image for activities','activities1629116671291-11.jpg'),
+	 (325,'2021-08-16 20:45:46.424366','2021-08-16 20:45:46.424366',0,'AC-OXDBZQXM10','image for activities','activities1629121546360-0.jpg'),
+	 (326,'2021-08-16 20:45:46.426286','2021-08-16 20:45:46.426286',0,'AC-OXDBZQXM10','image for activities','activities1629121546366-1.jpg'),
+	 (327,'2021-08-16 20:45:46.426737','2021-08-16 20:45:46.426737',0,'AC-OXDBZQXM10','image for activities','activities1629121546372-2.jpg'),
+	 (328,'2021-08-16 20:45:46.426737','2021-08-16 20:45:46.426737',0,'AC-OXDBZQXM10','image for activities','activities1629121546378-3.jpg'),
+	 (329,'2021-08-16 20:45:46.427317','2021-08-16 20:45:46.427317',0,'AC-OXDBZQXM10','image for activities','activities1629121546386-4.jpg'),
+	 (330,'2021-08-16 20:45:46.427317','2021-08-16 20:45:46.427317',0,'AC-OXDBZQXM10','image for activities','activities1629121546391-5.jpg');
+INSERT INTO public.activities_image (id,created_at,updated_at,"version",activities_code,caption,url) VALUES
+	 (331,'2021-08-16 20:45:46.428286','2021-08-16 20:45:46.428286',0,'AC-OXDBZQXM10','image for activities','activities1629121546397-6.jpg'),
+	 (332,'2021-08-16 20:45:46.429288','2021-08-16 20:45:46.429288',0,'AC-OXDBZQXM10','image for activities','activities1629121546402-7.jpg'),
+	 (333,'2021-08-16 20:45:46.429288','2021-08-16 20:45:46.429288',0,'AC-OXDBZQXM10','image for activities','activities1629121546407-8.jpg'),
+	 (334,'2021-08-16 20:45:46.430282','2021-08-16 20:45:46.430282',0,'AC-OXDBZQXM10','image for activities','activities1629121546413-9.jpg'),
+	 (335,'2021-08-16 20:45:46.430282','2021-08-16 20:45:46.430282',0,'AC-OXDBZQXM10','image for activities','activities1629121546419-10.jpg');

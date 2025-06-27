@@ -1,0 +1,182 @@
+========================================== Các chức năng chính =========================================
+	•	1.FE-01: Người dùng có thể thêm khách sạn, nhà hàng, khu vui chơi vào danh sách yêu thích.
+	•	2.FE-02: Người dùng có thể tìm kiếm, xem bài viết.
+	•	3.FE-03: Xem và cập nhật hồ sơ cá nhân.
+	•	4.FE-04: Người dùng có thể đăng ký tài khoản.
+	•	5.FE-05: Quản trị viên có thể tạo, tìm kiếm, xem, cập nhật, xóa tài khoản.
+	•	6.FE-06: Người dùng có thể tạo, tìm kiếm, xem, bình luận, cập nhật và xóa bài viết.
+	•	7.FE-07: Người dùng có thể đặt phòng, bàn ăn, hoặc vé.
+	•	8.FE-08: Đối tác có thể xử lý các đơn đặt phòng, bàn và vé.
+	•	9.FE-09: Người tạo nội dung có thể tạo, chỉnh sửa, xem, xóa và tìm kiếm bài viết.
+	
+
+======================================= Các người dùng trong hệ thống ================================
+	1) Guest: Khách hàng - Id = 6
+	2) User : Người dùng - Id = 5
+	3) Administrator: Admin - ID = 1
+	4) Employee: Nhân viên - ID = 2
+	5) Content Creator: Người sáng tạo nội dung - Id = 3
+	6) Partner: Đối tác. - ID = 4 
+	
+	
+======================================== Các chức năng chính cho từng người dùng =======================
+*) Hệ thống TravS có 6 nhóm người dùng chính:
+	#) 1. Quản trị viên (Administrator):
+		+) Mô tả: Người có quyền cao nhất, quản lý toàn bộ tài khoản và nội dung
+		+) Các chức năng chính: Đăng nhập, quản lý tài khoản, bài viết, khách sạn, nhà hàng, khu vui chơi
+		
+	#) 2. Nhân viên (Employee)
+		+) Có quyền gần giống quản trị viên, duyệt khách sạn, nhà hàng,...
+		+) Đăng nhập, xem hồ sơ, phê duyệt địa điểm
+		
+	#) 3. Người tạo nội dung (Content Creator)
+		+) Tạo, chỉnh sửa, xóa bài viết
+		+) Quản lý bài viết, chỉnh sửa hồ sơ cá nhân
+	
+	#) 4.Khách truy cập (Guest)
+		+) Người dùng không có tài khoản
+		+) Xem thông tin, đăng ký, đăng nhập
+	
+	#) 5. Người dùng đã đăng ký (User)
+		+) Người dùng có tài khoản
+		+) Quản lý thông tin cá nhân, đặt phòng, bàn ăn, vé, quản lý mục yêu thích.
+		
+	#) 6. Đối tác (Partner)
+		+) Chủ khách sạn, nhà hàng, khu vui chơi
+		+) Quản lý địa điểm của mình, xác nhận đặt chỗ.
+		
+		
+		
+		
+========================================== CÁC CHỨC NĂNG TRONG HỆ THỐNG ====================================
+	*) Administrator(Admin):
+		+)lOgin, Forgot Password, CRUD Account - Seach Account - View Detial Account, Quản lý Post tương tự Account, Logout
+		+) View Profile: Change Password , Edit Profile
+		+) View List Hotels: View Detail Hotel, Approve Hotel, Search Hotel
+		+) Tương tự với View List Restaurants, View List Entertainment Venues
+
+	*) Employee(Nhân viên): Login, View Profile, View List Hotels, View List Restaurants , View List Entertainment Venues, Logout
+	
+	*) Content Creator(Nhà sáng tạo nội dung): Login, View Profile,View All Posts , Logout
+	
+	*) Guest(Khách hàng): Login , Register ,Forgot Password, View Detail Post, View Detail Hotel, Search Hote, tương tư với Restaurants và Entertainment Venues giống Hotel 
+	
+	*) User( Người dùng): Login, + Forgot Password, View Profile, View Detail Post, Logout
+		+) View List Hotels: View Detail Hotel, Booking Room, Search Hotel , Add To Favorite Hotels, Remove Favorite Hotel
+		+) Tương tự với Restaurants và Entertainment Venues
+		+) View All Booking: 
+			$) View List Booking Rooms: View Detail Booking Room, Search By Status Booking Room, Change Status Booking Room
+			$) Tương tự với View List Booking Tables và View List Booking Tickets giống như là View List Booking Rooms
+	
+	*) Partner: Login , View Profile, Logout
+		+) View List Hotels: 
+			$) View Detail Hotel:
+				▪ Edit Room
+				▪ Delete Room
+			$) Update Hotel Information
+			$) Delete Hotel, Add Hotel, Add Room
+		+) Tương tự View List Restaurants và View List Entertainment Venues giống như  View Detail Hotel:
+		+) View List Booking Rooms: View Detail Booking Room, Approve Booking Room
+		+) Tương tự View List Booking Tables và View List Booking Tickets giống như View List Booking Rooms
+		
+	
+
+
+
+
+
+==================================================== Phân tích CSDL Travel Support ==================================
+	*) 1. Bảng account – Người dùng
+		+) Quan hệ: 1 Role → N Account (Nhiều người dùng có cùng một vai trò)
+	
+	*) 2. Bảng activities – Hoạt động/Tour du lịch
+		+) Quan hệ:
+			- 1 activity → N activities_image
+			- 1 activity → N activities_game
+			- 1 activity → N activities_receipt
+	
+	*) 3. Bảng activities_image
+		+)Quan hệ: 1 activity → N ảnh
+	
+	*) 4. Bảng activities_game – Mini game tour
+		+) 1 hoạt động → N game
+		
+	*)  5. Bảng activities_receipt – Hóa đơn đặt tour
+		+) Các thuộc tính : activity_id - FK → activities.id, account_id - FK → account.id, contact_id - FK → booking_contact.id, travel_date: Ngày đi
+		+) Quan hệ: 
+			- N activities_receipt → 1 account
+			- N activities_receipt → 1 booking_contact
+			- N activities_receipt → 1 activities
+						
+	*) 6. Bảng hotel
+		+) Các thuộc tính: slug - Chuỗi URL thân thiện, star - Số sao khách sạn , rank - Điểm đánh giá (1–10) , approve_status - Trạng thái duyệt, hotel_type - Loại khách sạn, amenities - Tiện ích (FK đến bảng amenities)
+		+) Quan hệ :
+			- 1 hotel → N hotel_image
+			- 1 hotel → N hotel_bookable_item
+			- 1 hotel → N hotel_receipt
+			- 1 hotel → N favorite_hotel
+			
+	*) 7. Bảng hotel_image
+		+) Quan hệ: 1 hotel → N ảnh
+
+	*) 8. Bảng hotel_bookable_item – Phòng có thể đặt:
+		+) Các thuộc tính: hotel_code - FK → hotel.code, room_type - Loại phòng: Deluxe, Family, Suite,..., available - Còn trống hay không, currency , hotel_option_code - Mã phòng duy nhất 
+		+) Quan hệ: 1 hotel → N phòng
+
+	*) 9. Bảng hotel_receipt – Đơn đặt phòng
+		+) Các thuộc tính: user_id - FK → account.id, contact_id - FK → booking_contact.id, partner_id - FK → account.id (chủ khách sạn) , booking_id - Mã đơn.
+		+) Quan hệ:
+			- 1 account (user) → N hóa đơn
+			- 1 booking_contact → N hóa đơn
+			
+	*) 10. Bảng favorite_hotel – Danh sách yêu thích
+		+) Các thuộc tính: user_id - FK → account.id, product_code - FK → hotel.code
+		+) Quan hệ: 
+			- 1 người dùng → N mục yêu thích
+			- 1 khách sạn → N lượt yêu thích
+	*) 11. Bảng booking_contact – Người liên hệ
+		+) Quan hệ: 1 booking_contact → N hotel_receipt / activities_receipt / restaurant_receipt
+		
+	*) 12. Bảng restaurant, restaurant_menu, restaurant_image, restaurant_receipt
+		+)Quan hệ:
+			- 1 restaurant → N món (restaurant_menu)
+			- 1 restaurant → N ảnh (restaurant_image)
+			- 1 restaurant → N đơn (restaurant_receipt)
+			- feature là mảng ID liên kết với bảng feature
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+=================================================== MỘt số câu hỏi thắc mắc ======================================
+	+) SLug là gì? và tại sao lại thêm slug vào trong CSDL?
+	+) Tại sao ngày trong DB lại để kiểu dữ liệu String thay vì kiểu Date
+	+) Slug là một chuỗi ký tự ngắn, thân thiện với URL, được dùng để đại diện cho một tên định danh duy nhất (ví dụ như tên khách sạn, nhà hàng, hoạt động) trong đường dẫn URL.
+	+) Dùng để làm gì:
+		*) Thân thiện với người dùng (SEO-friendly URL): Đường dẫn URL sẽ đẹp và dễ đọc hơn.
+		*) Thay thế ID trong URL: Thay vì sử dụng ID số như /hotel/123, bạn có thể dùng /hotel/khach-san-muong-thanh-ha-noi.
+		*) Cải thiện trải nghiệm người dùng: Người dùng có thể đoán được nội dung từ URL.
+
+	
+	+) Booking Id với contact_id trong bảng activities_receipt  có gì khác nhau hay không ???
+
+	+) Khi thêm Hotel tại sao lại có trường Destination 
+	+) Khi xóa Favorite tại sao lại sử dụng phương thức Get
+	+) Tạo sao có bảng Favorite rồi lại có thêm bảng Favorite_Hotel
+	+) Tại sao khi thêm mới khách sạn , lại là List hình ảnh, nhưng trong Giao diện chỉ thêm duy nhất 1 cái 
+	+) 

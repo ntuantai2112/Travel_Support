@@ -1,0 +1,79 @@
+//Search Places
+.wrapper__search--place {
+    padding: 0 !important;
+    margin-top: 50px;
+    @media (max-width: 1024px) {
+        margin-top: 30px;
+    }
+    .row {
+        .col__search {
+            .wrapper {
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+                justify-content: space-between;
+                .input__search {
+                    position: relative;
+                    input {
+                        padding: 5px 18px;
+                        width: 100%;
+                        // max-width: 400px;
+                        -moz-border-radius: 20px;
+                        -webkit-border-radius: 20px;
+                        -ms-border-radius: 20px;
+                        -o-border-radius: 20px;
+                        border-radius: 20px;
+                        font-size: 14px;
+                        font-weight: bold;
+                        opacity: 0.4;
+                        border: 2px solid #000;
+                        &:focus {
+                            outline: none;
+                        }
+                        @media (max-width: 1024px) {
+                            font-size: 12px;
+                            padding: 5px 15px;
+                        }
+                    }
+                    i.fa-search{
+                        cursor: pointer;
+                        position: absolute;
+                        right: 15px;
+                        top: 50%;
+                        height: 20px;
+                        width: 20px;
+                        opacity: .4;
+                        transform: translate(0, -50%);
+                    }
+                }
+
+                .wrapper__btn {
+                    padding-left: 20px;
+                    @media (max-width: 1024px) {
+                        padding-left: 10px;
+                    }
+                    span.search__btn {
+                        width: max-content;
+                        height: 100%;
+                        margin-left: auto;
+                        display: flex;
+                        flex-wrap: nowrap;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: #45a1d5;
+                        padding: 5px 20px;
+                        border-radius: 10px;
+                        color: #fff;
+                        font-size: 16px;
+                        font-weight: bold;
+                        cursor: pointer;
+                        @media (max-width: 1024px) {
+                            font-size: 14px;
+                            padding: 5px 15px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

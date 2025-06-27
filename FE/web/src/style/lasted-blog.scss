@@ -1,0 +1,54 @@
+@import "common.scss";
+
+.wrapper__lasted-blog {
+    margin-top: 70px;
+    // position: sticky;
+    // top: 100px;
+    h3.title {
+        font-size: 23px;
+        text-align: left;
+        font-weight: bold;
+        margin-bottom: 50px;
+        text-transform: capitalize;
+        @media(max-width:1024px){
+            font-size: 21px;
+        }
+    }
+    .item__hero {
+        width: 100%;
+        cursor: pointer;
+        &--top {
+            width: 100%;
+            img {
+                width: 416px;
+                height: 256px;
+            }
+        }
+        &--bottom {
+            margin-top: 15px;
+            padding: 0 15px;
+            p.content__hero {
+                text-align: left !important;
+                font-size: 17px;
+                font-weight: bold;
+                margin-bottom: 30px;
+                @media(max-width:1024px){
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+    .item__lasted-blog {
+        .item{
+            cursor: pointer;
+            p {
+                text-align: left !important;
+                font-size: 18px;
+                font-weight: bold;
+                @media(max-width:1024px){
+                    font-size: 15px;
+                }
+            }
+        }
+    }
+}

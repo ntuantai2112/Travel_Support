@@ -1,0 +1,6 @@
+INSERT INTO public."role" ("name") VALUES
+('ROLE_ADMIN'),
+('ROLE_EMPLOYEE'),
+('ROLE_CONTENT'),
+('ROLE_PARTNER'),
+('ROLE_MEMBER');
