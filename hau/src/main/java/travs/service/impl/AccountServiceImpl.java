@@ -297,7 +297,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     public void changeAccountLock(String id) {
-        if (StringUtils.isEmpty(id)) {
+        if (Objects.isNull(id)) {
             throw new RestApiException(StatusCode.DATA_EMPTY);
         }
         Account account = accountDAO.getAccountById(id);
