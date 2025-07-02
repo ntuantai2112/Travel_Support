@@ -1,58 +1,60 @@
 package travs.controller;
 
-import travs.model.UserPrincipal;
-import travs.service.AccountService;
-import travs.constant.Constants;
-import travs.request.account.LoginRequest;
-import travs.response.account.AccountResponse;
-import travs.response.token.TokenResponse;
-import travs.exception.JwtCustomException;
-import travs.sercurity.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import travs.constant.Constants;
+import travs.model.UserPrincipal;
+import travs.request.account.LoginRequest;
+import travs.response.account.AccountResponse;
+import travs.response.token.TokenResponse;
+import travs.sercurity.JwtTokenProvider;
+import travs.service.AccountService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*", maxAge = -1)
+@RequiredArgsConstructor
 public class LoginController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
 
     // api login
     @PostMapping(Constants.UrlPath.URL_API_LOGIN)
-    public TokenResponse login(@RequestBody LoginRequest request) {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-            return jwtTokenProvider.createToken(request.getUsername());
-        } catch (AuthenticationException e) {
-            throw new JwtCustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
-        }
+    public TokenResponse login(@RequestBody @Valid LoginRequest request) {
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        return jwtTokenProvider.createToken(request.getUsername());
     }
-// api get profile
+
+    // api get profile
     @GetMapping(Constants.UrlPath.URL_API_PROFILE)
-    public ResponseEntity<?> getAccount() {
+    public ResponseEntity<AccountResponse> getAccount() {
         UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
-        AccountResponse accountResponse  = accountService.getById(currentUser.getId());
-        ResponseEntity<AccountResponse> response = new ResponseEntity<>(accountResponse, HttpStatus.OK);
-        return response;
+        AccountResponse accountResponse = accountService.getById(currentUser.getId());
+        return new ResponseEntity<>(accountResponse, HttpStatus.OK);
     }
+
+
+
+
+
+
+
+
+
+
+
+
 }
