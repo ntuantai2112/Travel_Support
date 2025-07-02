@@ -29,7 +29,12 @@ public class LoginController {
 
     private final AccountService accountService;
 
-    // api login
+    /**
+     * Authenticates a user with the provided credentials and returns a JWT token upon successful authentication.
+     *
+     * @param request the login request containing username and password
+     * @return a JWT token response for the authenticated user
+     */
     @PostMapping(Constants.UrlPath.URL_API_LOGIN)
     public TokenResponse login(@RequestBody @Valid LoginRequest request) {
 
@@ -37,7 +42,11 @@ public class LoginController {
         return jwtTokenProvider.createToken(request.getUsername());
     }
 
-    // api get profile
+    /**
+     * Retrieves the profile information of the currently authenticated user.
+     *
+     * @return a ResponseEntity containing the authenticated user's account details and HTTP status 200 (OK)
+     */
     @GetMapping(Constants.UrlPath.URL_API_PROFILE)
     public ResponseEntity<AccountResponse> getAccount() {
         UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()

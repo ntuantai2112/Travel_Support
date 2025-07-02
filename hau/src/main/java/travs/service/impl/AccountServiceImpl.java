@@ -295,6 +295,12 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     }
 
+    /**
+     * Toggles the enabled status of an account by its ID.
+     *
+     * @param id the unique identifier of the account to update
+     * @throws RestApiException if the provided ID is null or the account does not exist
+     */
     @Override
     public void changeAccountLock(String id) {
         if (Objects.isNull(id)) {

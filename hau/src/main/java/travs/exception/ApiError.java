@@ -21,11 +21,25 @@ public class ApiError<T> {
     private String message;
     private T result;
 
+    /**
+     * Constructs an ApiError with the specified HTTP status code and error message.
+     *
+     * @param statusCode the HTTP status code representing the error
+     * @param message a descriptive message explaining the error
+     */
     public ApiError(Integer statusCode, String message) {
         this.statusCode = statusCode;
         this.message = message;
     }
 
+    /**
+     * Creates an {@code ApiError} instance with the specified HTTP status code, error message, and a list of field validation errors as the result.
+     *
+     * @param status the HTTP status code representing the error
+     * @param message a descriptive error message
+     * @param errors a list of field validation errors to include in the result
+     * @return an {@code ApiError} populated with the provided status, message, and errors, and the current timestamp
+     */
     public static ApiError from(int status,String message, List<FieldValidationError> errors) {
         return ApiError.builder()
                 .timestamp(LocalDateTime.now())

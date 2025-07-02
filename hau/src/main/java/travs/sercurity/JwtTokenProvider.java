@@ -40,11 +40,20 @@ public class JwtTokenProvider {
 
     private final AccountDAO accountDAO;
 
+    /**
+     * Encodes the secret key to Base64 after bean construction for use in JWT operations.
+     */
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
+    /**
+     * Generates a JWT access token for the specified username and returns a TokenResponse containing token details and account information.
+     *
+     * @param username the username (typically an email) for which to generate the token
+     * @return a TokenResponse containing the access token, expiration time, account ID, role ID, and role name
+     */
     public TokenResponse createToken(String username) {
         Claims claims = Jwts.claims().setSubject(username);
 
@@ -85,6 +94,13 @@ public class JwtTokenProvider {
         return null;
     }
 
+    /**
+     * Validates the provided JWT token.
+     *
+     * @param token the JWT token to validate
+     * @return true if the token is valid
+     * @throws JwtCustomException if the token is expired or invalid
+     */
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);

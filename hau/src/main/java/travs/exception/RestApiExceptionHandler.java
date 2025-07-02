@@ -14,6 +14,12 @@ import java.util.List;
 @Slf4j
 public class RestApiExceptionHandler {
 
+    /**
+     * Handles RestApiException by returning a structured error response with HTTP 400 status.
+     *
+     * @param restApiException the exception containing API error details
+     * @return a ResponseEntity with an ApiError body and HTTP status 400 (Bad Request)
+     */
     @ExceptionHandler(RestApiException.class)
     public ResponseEntity<?> handlerException(RestApiException restApiException) {
         ApiError apiError = new ApiError(restApiException.getStatus(), restApiException.getMessage());
@@ -21,6 +27,14 @@ public class RestApiExceptionHandler {
     }
 
 
+    /**
+     * Handles validation exceptions for method arguments and returns a structured error response.
+     *
+     * Extracts field-specific validation errors from the exception, constructs an {@link ApiError} containing details about each invalid field, and responds with HTTP 400 (Bad Request).
+     *
+     * @param ex the exception containing validation errors for method arguments
+     * @return a {@link ResponseEntity} with an {@link ApiError} describing the validation failures and HTTP 400 status
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleValidationExceptions(MethodArgumentNotValidException ex) {
         List<FieldValidationError> validationErrors = ex.getBindingResult().getFieldErrors().stream()
@@ -41,7 +55,13 @@ public class RestApiExceptionHandler {
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 
-    // Lỗi Login
+    /**
+     * Handles authentication exceptions by returning a structured error response for login failures.
+     *
+     * Returns an HTTP 422 (Unprocessable Entity) response with a fixed message indicating invalid username or password.
+     *
+     * @return a ResponseEntity containing the ApiError and HTTP status 422
+     */
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ApiError> handleAuthException(AuthenticationException ex) {
 
