@@ -1,10 +1,14 @@
 package travs.exception;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import travs.constant.StatusCode;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-
+@Getter
+@Setter
 @Component
 @AllArgsConstructor
 public class RestApiException extends RuntimeException {
@@ -25,20 +29,4 @@ public class RestApiException extends RuntimeException {
 
 
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }
