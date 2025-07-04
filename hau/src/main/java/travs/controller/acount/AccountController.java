@@ -1,7 +1,10 @@
 package travs.controller.acount;
 
+import lombok.RequiredArgsConstructor;
+import travs.constant.StatusCode;
 import travs.dao.SendEmailAccountDao;
 import travs.model.UserPrincipal;
+import travs.response.ApiResponse;
 import travs.service.AccountService;
 import travs.service.EmailService;
 import travs.utils.PropertiesReader;
@@ -26,19 +29,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AccountController {
 
-    private SendEmailAccountDao  sendEmailAccountDao;
+    private final SendEmailAccountDao sendEmailAccountDao;
 
-    private EmailService emailService;
+    private final EmailService emailService;
 
-    private AccountService accountService;
+    private final AccountService accountService;
 
 
     // api update profile
@@ -107,10 +112,9 @@ public class AccountController {
 
     // api đăng ký tài khoản
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody AccountRequest accountRequest) {
+    public ApiResponse<Void> register(@RequestBody @Valid AccountRequest accountRequest) {
         accountService.resgister(accountRequest);
-        ResponseEntity<String> response = new ResponseEntity<>(" Register Success", HttpStatus.OK);
-        return response;
+        return ApiResponse.build(StatusCode.REGISTER_SUCCESS.getStatus(), StatusCode.REGISTER_SUCCESS.getMessage());
     }
 
 

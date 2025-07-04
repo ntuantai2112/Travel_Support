@@ -1,6 +1,7 @@
 package travs.utils;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 public class FileStore {
     public static String UPLOAD_FOLDER = "./post-image";
 
@@ -43,22 +45,19 @@ public class FileStore {
         return images;
     }
 
-    public static String getDefaultAvatar()  {
+    public static String getDefaultAvatar() {
         try {
-            String fileName = "avatar-" + RandomNumber.getRandomNumberString() ;
-            BufferedImage image = ImageIO.read(new File(UPLOAD_FOLDER+ "/avatardefault.png"));
+            String fileName = "avatar-" + RandomNumber.getRandomNumberString();
+            BufferedImage image = ImageIO.read(new File(UPLOAD_FOLDER + "/avatarDefault.png"));
             ImageIO.write(image, "png", new File(UPLOAD_FOLDER + fileName + ".png"));
 
-            return fileName +".png";
+            return fileName + ".png";
         } catch (Exception e) {
-          return null;
+            log.warn("Get Default Avatar Fail:{}", e.getMessage());
+            return null;
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        getDefaultAvatar();
-
-    }
 
     public static String getFilePath(MultipartFile multipartFile, String prefix) {
         if (multipartFile != null && !multipartFile.isEmpty()) {

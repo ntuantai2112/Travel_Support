@@ -1,11 +1,16 @@
 package travs.constant;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import travs.utils.PropertiesReader;
 
+@Getter
+@AllArgsConstructor
 public enum StatusCode {
 
-    SUCCESS(0, "Success"),
+    SUCCESS(200, "Success"),
     ERROR_UNKNOWN(1, "Error Unknown"),
+    REGISTER_SUCCESS(420, "Register Successfully!"),
     ABSENT_DETAIL_NOT_EXIST(401, PropertiesReader.getProperty(PropertyKeys.ABSENT_DETAIL_NOT_EXIST)),
     APARTMENT_NOT_EXIST(402, PropertiesReader.getProperty(PropertyKeys.APARTMENT_NOT_EXIST)),
     ROOM_NUMBER_NOT_EXIST(403, PropertiesReader.getProperty(PropertyKeys.ROOM_NUMBER_NOT_EXIST)),
@@ -27,28 +32,9 @@ public enum StatusCode {
     VEHICLE_CARD_NOT_EXIST(418, PropertiesReader.getProperty(PropertyKeys.VEHICLE_CARD_NOT_EXIST)),
     POST_NOT_EXIST(419, PropertiesReader.getProperty(PropertyKeys.POST_NOT_EXIST));
 
-    private Integer status;
+    private final Integer status;
 
-    private String message;
+    private final String message;
 
-    StatusCode(Integer status, String message) {
-        this.status = status;
-        this.message = message;
-    }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }

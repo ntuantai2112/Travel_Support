@@ -1,15 +1,15 @@
 package travs.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import travs.constant.Constants;
+import travs.constant.StatusCode;
 import travs.model.UserPrincipal;
 import travs.request.account.LoginRequest;
+import travs.response.ApiResponse;
 import travs.response.account.AccountResponse;
 import travs.response.token.TokenResponse;
 import travs.sercurity.JwtTokenProvider;
@@ -39,22 +39,14 @@ public class LoginController {
 
     // api get profile
     @GetMapping(Constants.UrlPath.URL_API_PROFILE)
-    public ResponseEntity<AccountResponse> getAccount() {
+    public ApiResponse<AccountResponse> getAccount() {
         UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         AccountResponse accountResponse = accountService.getById(currentUser.getId());
-        return new ResponseEntity<>(accountResponse, HttpStatus.OK);
+        return ApiResponse.build(StatusCode.SUCCESS.getStatus(),
+                StatusCode.SUCCESS.getMessage(),
+                accountResponse);
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }

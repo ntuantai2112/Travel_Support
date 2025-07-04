@@ -10,7 +10,6 @@ import lombok.*;
 public class AccountResponse {
     private String id;
     private String name;
-    private String password;
     private String phone;
     private String email;
     private Boolean enabled;
