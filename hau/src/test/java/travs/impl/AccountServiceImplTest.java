@@ -5,6 +5,7 @@ import travs.constant.Constants;
 import travs.dao.AccountDAO;
 import travs.entity.account.Account;
 import travs.entity.account.Role;
+import travs.mapper.AccountMapper;
 import travs.model.AccountDTO;
 import travs.request.account.AccountRequest;
 import travs.response.ApiResponse;
@@ -36,6 +37,9 @@ public class AccountServiceImplTest {
 
     @Mock
     private EmailService emailService;
+
+    @Mock
+    private AccountMapper accountMapper;
 
     Account account = Account.builder()
             .id("1")
@@ -141,7 +145,7 @@ public class AccountServiceImplTest {
     public void register_Success() {
 //        Mockito.when(accountDAO.save(account)).thenReturn(account);
         //accountServiceImpl.resgister(request);
-       // MatcherAssert.assertThat(account.getId(), Matchers.is("1"));
+        // MatcherAssert.assertThat(account.getId(), Matchers.is("1"));
     }
 
 
@@ -152,7 +156,7 @@ public class AccountServiceImplTest {
 
         //accountServiceImpl.
 
-                //MatcherAssert.assertThat(request.getEmail(), Matchers.is("TravSFu@gmail.com"));
+        //MatcherAssert.assertThat(request.getEmail(), Matchers.is("TravSFu@gmail.com"));
 
     }
 
@@ -180,7 +184,6 @@ public class AccountServiceImplTest {
 
     @Test
     public void updateProfile_Success() {
-
 
 
         Mockito.when(accountDAO.getAccountById(Mockito.any())).thenReturn(account);
@@ -211,25 +214,7 @@ public class AccountServiceImplTest {
     }
 
     public AccountResponse convert(Account account) {
-        AccountResponse accountResponse = AccountResponse.builder().build();
-        accountResponse.setId(account.getId());
-        accountResponse.setDob(account.getDob());
-        accountResponse.setEmail(account.getEmail());
-        accountResponse.setImage(account.getImage());
-        accountResponse.setRoleId(account.getRole().getId());
-        accountResponse.setRoleName(account.getRole().getName());
-        accountResponse.setName(account.getName());
-
-        String gender;
-        if (account.getGender() == true) {
-            gender = Constants.AccountGender.GENDER_MALE;
-        } else {
-            gender = Constants.AccountGender.GENDER_FEMALE;
-        }
-        accountResponse.setGender(gender);
-        accountResponse.setPhone(account.getPhone());
-        accountResponse.setPassword(account.getPassword());
-        return accountResponse;
+        return accountMapper.toResponse(account);
     }
 
 

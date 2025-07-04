@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -20,6 +21,7 @@ import travs.dao.AccountDAO;
 import travs.entity.account.Account;
 import travs.entity.account.Role;
 import travs.exception.RestApiException;
+import travs.mapper.AccountMapper;
 import travs.model.UserPrincipal;
 import travs.request.account.AccountRequest;
 import travs.request.account.ChangePasswordRequest;
@@ -49,11 +51,15 @@ class AccountServiceImplTest {
     @Mock
     private EmailService mockEmailService;
 
+    @Mock
+    private AccountMapper accountMapper;
+
+
     private AccountServiceImpl accountServiceImplUnderTest;
 
     @BeforeEach
     void setUp() {
-        accountServiceImplUnderTest = new AccountServiceImpl(mockAccountDAO, mockEmailService);
+        accountServiceImplUnderTest = new AccountServiceImpl(mockAccountDAO, mockEmailService,accountMapper);
     }
 
     @Test

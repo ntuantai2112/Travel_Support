@@ -16,8 +16,6 @@ public class RandomNumber {
         return String.format("%06d", number);
     }
 
-    public static void main(String[] args) throws NoSuchAlgorithmException {
-        System.out.println( RandomNumber.getRandomNumberString());
-    }
+
 
 }

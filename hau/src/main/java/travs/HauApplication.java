@@ -1,5 +1,6 @@
 package travs;
 
+import org.springframework.context.annotation.ComponentScan;
 import travs.constant.RoleEnum;
 import travs.entity.account.Account;
 import travs.sercurity.JwtTokenFilter;
@@ -30,7 +31,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import java.util.Arrays;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "travs")
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableJpaRepositories
 @EnableAsync

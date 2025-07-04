@@ -1,23 +1,6 @@
 package travs.service.impl;
 
-import travs.dao.AccountDAO;
-import travs.model.UserPrincipal;
-import travs.service.EmailService;
-import travs.utils.FileStore;
-import travs.utils.PasswordGenerator;
-import travs.utils.ValidateUtil;
-import travs.constant.Constants;
-import travs.constant.RoleEnum;
-import travs.constant.StatusCode;
-import travs.entity.account.Account;
-import travs.entity.account.Role;
-import travs.exception.RestApiException;
-import travs.request.account.AccountRequest;
-import travs.request.account.ChangePasswordRequest;
-import travs.response.account.AccountResponse;
-import travs.response.ApiResponse;
-import travs.service.AccountService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -28,9 +11,25 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import travs.constant.RoleEnum;
+import travs.constant.StatusCode;
+import travs.dao.AccountDAO;
+import travs.entity.account.Account;
+import travs.entity.account.Role;
+import travs.exception.RestApiException;
+import travs.mapper.AccountMapper;
+import travs.model.UserPrincipal;
+import travs.request.account.AccountRequest;
+import travs.request.account.ChangePasswordRequest;
+import travs.response.ApiResponse;
+import travs.response.account.AccountResponse;
+import travs.service.AccountService;
+import travs.service.EmailService;
+import travs.utils.FileStore;
+import travs.utils.PasswordGenerator;
+import travs.utils.ValidateUtil;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -38,88 +37,39 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-@Transactional
+
 @Service
 @Log4j2
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService, UserDetailsService {
 
-    private AccountDAO accountDAO;
+    private final AccountDAO accountDAO;
 
-    private EmailService emailService;
+    private final EmailService emailService;
+
+    private final AccountMapper accountMapper;
+
 
     //add account
     @Override
     public void add(AccountRequest request) {
-        if (Objects.isNull(request) || StringUtils.isEmpty(request.getEmail()) ||
-                StringUtils.isEmpty(request.getDob()) || StringUtils.isEmpty(request.getPhone())) {
-            throw new RestApiException(StatusCode.DATA_EMPTY);
-        }
-
-        Account searchAccountByEmail = accountDAO.getAccountByEmail(request.getEmail());
-        if (Objects.nonNull(searchAccountByEmail)) {
-            throw new RestApiException(StatusCode.ACCOUNT_REGISTER);
-        }
-
-        if (!ValidateUtil.isEmail(request.getEmail())) {
-            throw new RestApiException(StatusCode.EMAIL_NOT_RIGHT_FORMAT);
-        }
-        if (!ValidateUtil.isPhoneNumber(request.getPhone())) {
-            throw new RestApiException(StatusCode.PHONE_NUMBER_NOT_RIGHT_FORMAT);
-        }
-
-        Account account = new Account();
-        account.setEmail(request.getEmail());
-        account.setDob(request.getDob());
-        account.setEnabled(true);
-        account.setImage(FileStore.getDefaultAvatar());
+        validateRegisterAccount(request);
+        Account account = accountMapper.toEntity(request);
         account.setPassword(PasswordGenerator.getHashString("123@123aB"));
-        account.setPhone(request.getPhone());
-        account.setRole(new Role(request.getRoleId()));
-        account.setName(request.getName());
-        account.setGender(request.getGender());
         accountDAO.save(account);
 
         //send mail
         sendMail(request.getEmail());
+        log.info("Add Account Successfully!");
     }
-
- //add account
-    //public void
-
 
 
     @Override
     public void resgister(AccountRequest request) {
-        if (Objects.isNull(request) || StringUtils.isEmpty(request.getEmail()) ||
-                StringUtils.isEmpty(request.getDob()) || StringUtils.isEmpty(request.getPhone())) {
-            throw new RestApiException(StatusCode.DATA_EMPTY);
-        }
-
-        Account searchAccountByEmail = accountDAO.getAccountByEmail(request.getEmail());
-        if (Objects.nonNull(searchAccountByEmail)) {
-            throw new RestApiException(StatusCode.ACCOUNT_REGISTER);
-        }
-
-        if (!ValidateUtil.isEmail(request.getEmail())) {
-            throw new RestApiException(StatusCode.EMAIL_NOT_RIGHT_FORMAT);
-        }
-        if (!ValidateUtil.isPhoneNumber(request.getPhone())) {
-            throw new RestApiException(StatusCode.PHONE_NUMBER_NOT_RIGHT_FORMAT);
-        }
-
-        Account account = new Account();
-        account.setEmail(request.getEmail());
-        account.setDob(request.getDob());
-        account.setEnabled(true);
-        account.setImage(FileStore.getDefaultAvatar());
-        account.setPassword(PasswordGenerator.getHashString(request.getPassword()));
-        account.setPhone(request.getPhone());
-        account.setRole(new Role(5L));
-        account.setName(request.getName());
-        account.setGender(request.getGender());
+        validateRegisterAccount(request);
+        Account account = accountMapper.toEntity(request);
         accountDAO.save(account);
-
+        log.info("Register Account Successfully!");
     }
 
 
@@ -131,7 +81,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
             content.append("<p>mật khẩu của bạn là : 123@123aB  </p>");
             content.append("<p>Yêu Cầu bạn đổi mật khẩu khi đăng nhập vào hệ thống  </p>");
 
-            String subject = "FPT ---THÔNG TIN TÀI KHOẢN";
+            String subject = "HAU ---THÔNG TIN TÀI KHOẢN";
             emailService.sendSimpleMessage(email, subject, content.toString());
         } catch (Exception e) {
             log.debug(e);
@@ -141,7 +91,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Override
     public void update(AccountRequest request, String id) {
         if (Objects.isNull(request) || StringUtils.isEmpty(request.getEmail()) ||
-                StringUtils.isEmpty(request.getDob()) || StringUtils.isEmpty(request.getPhone())) {
+            StringUtils.isEmpty(request.getDob()) || StringUtils.isEmpty(request.getPhone())) {
             throw new RestApiException(StatusCode.DATA_EMPTY);
         }
         if (!ValidateUtil.isEmail(request.getEmail())) {
@@ -192,8 +142,8 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Override
     public void updateProfile(AccountRequest request, String id) {
         if (Objects.isNull(request) || StringUtils.isEmpty(request.getEmail()) ||
-                StringUtils.isEmpty(request.getDob())
-                || StringUtils.isEmpty(request.getPhone()) || StringUtils.isEmpty(request.getName())) {
+            StringUtils.isEmpty(request.getDob())
+            || StringUtils.isEmpty(request.getPhone()) || StringUtils.isEmpty(request.getName())) {
             throw new RestApiException(StatusCode.DATA_EMPTY);
         }
 
@@ -242,6 +192,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
 
     @Override
+    @Transactional
     public ApiResponse searchByNameEmailRole(String name, String email, String role, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
 
@@ -260,12 +211,11 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         List<AccountResponse> accountResponses = new ArrayList<>();
         accounts.forEach(account -> accountResponses.add(convert(account)));
 
-        ApiResponse response = ApiResponse.builder()
+        return ApiResponse.builder()
                 .data(accountResponses)
                 .totalElement(totalPage)
                 .build();
-        return response;
-    }
+     }
 
     @Override
     public AccountResponse getById(String id) {
@@ -311,26 +261,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
 
     public AccountResponse convert(Account account) {
-        AccountResponse accountResponse = AccountResponse.builder().build();
-        accountResponse.setId(account.getId());
-        accountResponse.setDob(account.getDob());
-        accountResponse.setEmail(account.getEmail());
-        accountResponse.setImage(account.getImage());
-        accountResponse.setRoleId(account.getRole().getId());
-        accountResponse.setRoleName(account.getRole().getName());
-        accountResponse.setName(account.getName());
-
-        String gender;
-        if (account.getGender() == true) {
-            gender = Constants.AccountGender.GENDER_MALE;
-        } else {
-            gender = Constants.AccountGender.GENDER_FEMALE;
-        }
-        accountResponse.setGender(gender);
-        accountResponse.setPhone(account.getPhone());
-        accountResponse.setPassword(account.getPassword());
-        accountResponse.setEnabled(account.getEnabled());
-        return accountResponse;
+        return accountMapper.toResponse(account);
     }
 
 
@@ -348,5 +279,21 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         accountDTO.setName(account.getName());
         accountDTO.setRoleId(account.getRole().getId());
         return accountDTO;
+    }
+
+
+    private void validateRegisterAccount(AccountRequest request) {
+
+        Account searchAccountByEmail = accountDAO.getAccountByEmail(request.getEmail());
+        if (Objects.nonNull(searchAccountByEmail)) {
+            throw new RestApiException(StatusCode.ACCOUNT_REGISTER);
+        }
+
+        if (!ValidateUtil.isEmail(request.getEmail())) {
+            throw new RestApiException(StatusCode.EMAIL_NOT_RIGHT_FORMAT);
+        }
+        if (!ValidateUtil.isPhoneNumber(request.getPhone())) {
+            throw new RestApiException(StatusCode.PHONE_NUMBER_NOT_RIGHT_FORMAT);
+        }
     }
 }
