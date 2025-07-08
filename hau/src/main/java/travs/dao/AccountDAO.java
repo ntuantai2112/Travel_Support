@@ -20,7 +20,6 @@ public interface AccountDAO extends JpaRepository<Account, Long> {
     Account getAccountById(String id);
 
 
-    @Transactional
     @Modifying
     @Query(value = "DELETE FROM Account a WHERE a.id=:id" , nativeQuery = true)
     void deleteAllById( @Param("id") String id);

@@ -110,7 +110,7 @@ public class ReceiptRestaurantServiceImpl implements ReceiptRestaurantService {
 
 
     @Override
-    public BaseResponse getListRestaurantReceipt(BookingStatus status, Integer page, Integer perPage) {
+    public BaseResponse<List<RestaurantBookingReceiptDTO>,Map<String, Integer>> getListRestaurantReceipt(BookingStatus status, Integer page, Integer perPage) {
         String userId = AuthenticationUtils.getUserId();
         if (userId == null) {
             throw new GeneralException(ErrorCode.UNAUTHORIZED);
@@ -124,15 +124,13 @@ public class ReceiptRestaurantServiceImpl implements ReceiptRestaurantService {
             receiptList = restaurantBookingReceiptRepository.findAllByPartnerIdAndStatusOrderByCreatedAtDesc(userId, status, PageRequest.of(page, perPage));
             mapReturn.put("total", restaurantBookingReceiptRepository.countAllByPartnerIdAndStatus(userId, status));
         }
+        log.info("Get List Booking Restaurant Receipt By Partner Successfully!");
         return BaseResponse.ok(MappingUtils.map(receiptList, RestaurantBookingReceiptDTO.class), mapReturn);
     }
 
     @Override
-    public BaseResponse getListRestaurantReceiptByUserId(BookingStatus status, Integer page, Integer perPage) {
+    public BaseResponse<List<RestaurantBookingReceiptDTO>,Map<String, Integer>> getListRestaurantReceiptByUserId(BookingStatus status, Integer page, Integer perPage) {
         String userId = AuthenticationUtils.getUserId();
-        if (userId == null) {
-            throw new GeneralException(ErrorCode.UNAUTHORIZED);
-        }
         List<RestaurantBookingReceipt> receiptList;
         Map<String, Integer> mapReturn = new HashMap<>();
         if (status == null) {
@@ -142,6 +140,7 @@ public class ReceiptRestaurantServiceImpl implements ReceiptRestaurantService {
             receiptList = restaurantBookingReceiptRepository.findAllByUserIdAndStatusOrderByCreatedAtDesc(userId, status, PageRequest.of(page, perPage));
             mapReturn.put("total", restaurantBookingReceiptRepository.countAllByUserIdAndStatus(userId, status));
         }
+        log.info("Get List Booking Restaurant Receipt By User Successfully!");
         return BaseResponse.ok(MappingUtils.map(receiptList, RestaurantBookingReceiptDTO.class), mapReturn);
     }
 
@@ -178,6 +177,7 @@ public class ReceiptRestaurantServiceImpl implements ReceiptRestaurantService {
 
         receipt.setStatus(restaurantApproveBookingRequest.getStatus());
         restaurantBookingReceiptRepository.save(receipt);
+        log.info("User Update Booking Status Restaurant Successfully with bookingId:{}", receipt.getBookingId());
     }
 
 

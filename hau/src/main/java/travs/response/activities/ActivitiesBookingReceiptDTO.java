@@ -1,23 +1,19 @@
 package travs.response.activities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.experimental.SuperBuilder;
 import travs.common.type.BookingStatus;
 import lombok.*;
+import travs.response.BaseBookingReceiptResponse;
 
 
-@Builder
+@SuperBuilder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActivitiesBookingReceiptDTO {
+public class ActivitiesBookingReceiptDTO extends BaseBookingReceiptResponse {
 
-    private String id;
-
-    private String createdAt;
-
-    private String updatedAt;
-
-    private String bookingId;
 
     private Integer numberTicketChild;
 
@@ -27,6 +23,7 @@ public class ActivitiesBookingReceiptDTO {
 
     private BookingStatus status;
 
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Integer travelDate;
 
     private Double price;

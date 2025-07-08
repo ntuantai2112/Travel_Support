@@ -17,10 +17,10 @@ import java.util.Objects;
 
 @Slf4j
 public class FileStore {
-    public static String UPLOAD_FOLDER = "./post-image";
+    public static final String UPLOAD_FOLDER = System.getProperty("user.dir") + "/post-image";
 
     public static List<String> getFilePaths(List<MultipartFile> multipartFiles, String prefix) {
-        List<String> images = new ArrayList<String>();
+        List<String> images = new ArrayList<>();
         if (multipartFiles != null) {
             for (int i = 0; i < multipartFiles.size(); i++) {
                 MultipartFile imageFile = multipartFiles.get(i);
@@ -58,7 +58,7 @@ public class FileStore {
         }
     }
 
-
+    // Hàm Lưu File ảnh từ MultipartFile và thư mục và trả về tên file đã lưu.
     public static String getFilePath(MultipartFile multipartFile, String prefix) {
         if (multipartFile != null && !multipartFile.isEmpty()) {
             try {
@@ -68,10 +68,10 @@ public class FileStore {
 
                 Path pathImage = Paths.get(UPLOAD_FOLDER + File.separator + image);
                 Files.write(pathImage, multipartFile.getBytes());
-
+                log.info("Get File Path Successfully with:{}", image);
                 return image;
             } catch (IOException e) {
-
+                e.printStackTrace();
             }
         }
         return null;
@@ -82,13 +82,18 @@ public class FileStore {
         if (filePath != null) {
             try {
                 File avatarFile = new File(UPLOAD_FOLDER + File.separator + filePath);
-                boolean b2 = avatarFile.delete();
-                if (b2) {
-                    avatarFile.delete();
+                if (avatarFile.exists()) {
+                    boolean deleted = avatarFile.delete();
+                    if (!deleted) {
+                        log.info("Không thể xóa file: " + avatarFile.getAbsolutePath());
+                    }
                 }
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
+                log.error("Delete File False:{}",e.getMessage());
             }
         }
     }
+
 
 }

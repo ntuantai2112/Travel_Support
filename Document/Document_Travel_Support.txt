@@ -86,48 +86,96 @@
 
 
 ==================================================== Phân tích CSDL Travel Support ==================================
-	*) 1. Bảng account – Người dùng
+	*) 1. Bảng account – Tài khoản Người dùng
 		+) Quan hệ: 1 Role → N Account (Nhiều người dùng có cùng một vai trò)
+		+) role_id: phân quyền (FK → role.id)
+
 	
 	*) 2. Bảng activities – Hoạt động/Tour du lịch
+		+)Mục đích:Lưu trữ thông tin các hoạt động du lịch mà người dùng có thể xem, chọn và đặt: như tour du lịch, sự kiện, trải nghiệm, trò chơi,...
+			#) Là bảng trung tâm cho các hoạt động.
+
 		+) Quan hệ:
 			- 1 activity → N activities_image
 			- 1 activity → N activities_game
-			- 1 activity → N activities_receipt
+			- 1 activity → N activities_receipt: Mỗi hoạt động/tour có thể được đặt bởi nhiều người, sinh ra nhiều hóa đơn
 	
-	*) 3. Bảng activities_image
+	*) 3. Bảng activities_image - Ảnh hoạt động
 		+)Quan hệ: 1 activity → N ảnh
+		+)  activities_code (FK → activities)
 	
 	*) 4. Bảng activities_game – Mini game tour
 		+) 1 hoạt động → N game
+		+) Quan hệ: 1 activities → N activities_game
 		
 	*)  5. Bảng activities_receipt – Hóa đơn đặt tour
+		+) Mục đích: Ghi lại dữ liệu người dùng đã đặt hoạt động du lịch (tour).,
+			#) Bao gồm thông tin người đặt, ngày đi, số vé, tổng tiền, trạng thái.
+		+) Dữ liệu: ai đặt tour nào, khi nào, bao nhiêu vé,...
 		+) Các thuộc tính : activity_id - FK → activities.id, account_id - FK → account.id, contact_id - FK → booking_contact.id, travel_date: Ngày đi
+			#) booking_id: Mã đơn đặt do hệ thống tạo – có thể hiển thị cho người dùng. - Vd: "BK-ACT-20250706-01"
+			#) activities_info: Thông tin chi tiết về hoạt động du lịch tại thời điểm đặt: tên tour, thời lượng, mô tả...
+			#) partner_id: 	ID của đối tác (account.id) phụ trách tour – để liên hệ hoặc phân quyền quản lý đơn.
+			#) travel_date: Ngày đi du lịch. Người dùng chọn khi đặt.
+			#) user_id: ID của người dùng đã đặt tour (FK → account.id).
+			#) contact_id: ID người liên hệ đặt tour (FK → booking_contact.id) – chứa tên, số điện thoại,...
+
+
 		+) Quan hệ: 
+			- user_id- FK → account.id: Một người dùng có thể đặt nhiều tour.
+			- contact_id - FK → booking_contact.id: Lưu người liên hệ khi đặt tour. Một người liên hệ có thể liên quan đến nhiều hóa đơn.
+			- partner_id - FK → account.id: Đối tác tổ chức tour – thường là người tạo tour.
+			- 
 			- N activities_receipt → 1 account
 			- N activities_receipt → 1 booking_contact
 			- N activities_receipt → 1 activities
 						
 	*) 6. Bảng hotel
 		+) Các thuộc tính: slug - Chuỗi URL thân thiện, star - Số sao khách sạn , rank - Điểm đánh giá (1–10) , approve_status - Trạng thái duyệt, hotel_type - Loại khách sạn, amenities - Tiện ích (FK đến bảng amenities)
+			#) amenities: Danh sách tiện ích ID (FK đến bảng amenities). Mỗi số tương ứng 1 tiện ích.
+			#) hotel_type: Loại khách sạn: Hotel, Resort, Homestay, Apartment...
+			#) location_code: Mã địa điểm – dùng để lọc khách sạn theo tỉnh/thành, quận/huyện,... (nếu có thiết kế phân vùng). 
+			#) approve_status: Trạng thái duyệt: PENDING, APPROVED, REJECTED. Quy định có hiển thị hay không.		
+
+		
+
+	
 		+) Quan hệ :
-			- 1 hotel → N hotel_image
-			- 1 hotel → N hotel_bookable_item
-			- 1 hotel → N hotel_receipt
-			- 1 hotel → N favorite_hotel
+			- 1 hotel → N hotel_image : 	1 khách sạn → N ảnh
+			- 1 hotel → N hotel_bookable_item : 1 khách sạn → N loại phòng có thể đặt
+			- 1 hotel → N hotel_receipt: 1 khách sạn → N hóa đơn đặt phòng
+			- 1 hotel → N favorite_hotel: 1 khách sạn → N bản ghi yêu thích
+
 			
 	*) 7. Bảng hotel_image
 		+) Quan hệ: 1 hotel → N ảnh
 
 	*) 8. Bảng hotel_bookable_item – Phòng có thể đặt:
 		+) Các thuộc tính: hotel_code - FK → hotel.code, room_type - Loại phòng: Deluxe, Family, Suite,..., available - Còn trống hay không, currency , hotel_option_code - Mã phòng duy nhất 
-		+) Quan hệ: 1 hotel → N phòng
+			#) hotel_code: Mã khách sạn – liên kết đến bảng hotel.code (FK)
+			#) hotel_option_code: Mã định danh riêng cho loại phòng, giúp phân biệt (dùng trong thanh toán, tracking)
+			#) room_type: Tên loại phòng: Deluxe, Standard, Suite, Family,..
+			#) max_adults: Số người lớn tối đa được ở trong phòng
+			#) image_url: Ảnh đại diện của loại phòng (ảnh đầu tiên trong danh sách)
+			
+		+) Quan hệ: 1 hotel → N phòng: 	1 hotel → N loại phòng
 
 	*) 9. Bảng hotel_receipt – Đơn đặt phòng
 		+) Các thuộc tính: user_id - FK → account.id, contact_id - FK → booking_contact.id, partner_id - FK → account.id (chủ khách sạn) , booking_id - Mã đơn.
+			#) booking_id: Mã hóa đơn hiển thị ra frontend cho người dùng. Có thể tự sinh theo mẫu: BKH001, BOOK-HTL-20250706-01.
+			#) hotel_info: Thông tin khách sạn và phòng (snapshot lúc đặt): bao gồm hotel_code, hotel_title, room_type,...
+			#) package_info: Dữ liệu về gói dịch vụ đi kèm, ví dụ: "Gói nghỉ dưỡng", "Bao gồm ăn sáng"
+			#) user_id: Người dùng đặt phòng (FK → account.id)
+			#) contact_id: Người nhận phòng hoặc liên hệ (FK → booking_contact.id)
+			#) 
+
+
+
+
 		+) Quan hệ:
-			- 1 account (user) → N hóa đơn
-			- 1 booking_contact → N hóa đơn
+			- 1 account (user) → N hóa đơn : 1 người dùng có thể đặt nhiều hóa đơn khách sạn
+			- 1 booking_contact → N hóa đơn: 1 người liên hệ có thể dùng cho nhiều đơn đặt
+			- 1 partner → N đơn: 1 đối tác có thể quản lý nhiều đơn đặt phòng
 			
 	*) 10. Bảng favorite_hotel – Danh sách yêu thích
 		+) Các thuộc tính: user_id - FK → account.id, product_code - FK → hotel.code

@@ -1,5 +1,7 @@
 package travs.controller.acount;
 
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import travs.service.AccountService;
 import travs.service.EmailService;
 import com.google.gson.Gson;
@@ -22,13 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-@AllArgsConstructor
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true)
 @Log4j2
 public class SearchAccountController {
 
     private AccountService accountService;
 
-    private EmailService emailService;
 
 
     // api trả về list account
@@ -42,7 +44,7 @@ public class SearchAccountController {
         Integer pageSize = 5;
         ApiResponse apiResponse = accountService.searchByNameEmailRole(name, email, role, page, pageSize);
         ResponseEntity<ApiResponse> response = new ResponseEntity<>(apiResponse, HttpStatus.OK);
-        log.info("searchEmployee response : " + new Gson().toJson(response));
+        log.info("searchEmployee response : ");
         return response;
     }
 

@@ -1,13 +1,22 @@
 package travs.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 import travs.common.type.BookingStatus;
 import travs.dao.AccountDAO;
 import travs.entity.BookingContact;
 import travs.entity.account.Account;
-import travs.exception.ErrorCode;
+import travs.entity.activities.Activities;
+import travs.entity.activities.ActivitiesBookingReceipt;
+import travs.entity.activities.ActivitiesGame;
+import travs.entity.hotel.Hotel;
+import travs.entity.hotel.HotelBookableItem;
+import travs.entity.hotel.HotelBookingReceipt;
 import travs.exception.GeneralException;
 import travs.exception.ResourceNotFoundException;
-import travs.repository.FavoriteHotelRepository;
 import travs.repository.HotelBookItemRepository;
 import travs.repository.HotelBookingReceiptRepository;
 import travs.repository.HotelImageRepository;
@@ -16,6 +25,10 @@ import travs.repository.activities.ActivitiesBookingReceiptRepository;
 import travs.repository.activities.ActivitiesGameRepository;
 import travs.repository.activities.ActivitiesImageRepository;
 import travs.repository.activities.ActivitiesRepository;
+import travs.request.activities.ActivitiesApproveBookingRequest;
+import travs.request.activities.BookingActivitiesRequest;
+import travs.request.hotel.BookingRequest;
+import travs.request.hotel.HotelApproveBookingRequest;
 import travs.response.BaseResponse;
 import travs.response.activities.ActivitiesBookingReceiptDTO;
 import travs.response.activities.ActivitiesGameDTO;
@@ -23,46 +36,27 @@ import travs.response.activities.ActivitiesInfoDTO;
 import travs.response.hotel.HotelBookingReceiptDTO;
 import travs.response.hotel.HotelInfoDTO;
 import travs.response.hotel.PackageDTO;
-import travs.service.AccountService;
 import travs.service.EmailService;
+import travs.service.ReceiptService;
 import travs.utils.AuthenticationUtils;
 import travs.utils.HelperUtils;
 import travs.utils.MappingUtils;
-import travs.entity.activities.Activities;
-import travs.entity.activities.ActivitiesBookingReceipt;
-import travs.entity.activities.ActivitiesGame;
-import travs.entity.hotel.Hotel;
-import travs.entity.hotel.HotelBookableItem;
-import travs.entity.hotel.HotelBookingReceipt;
-import travs.request.activities.ActivitiesApproveBookingRequest;
-import travs.request.activities.BookingActivitiesRequest;
-import travs.request.hotel.BookingRequest;
-import travs.request.hotel.HotelApproveBookingRequest;
-import travs.service.ReceiptService;
-import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-@Component
-@Log4j2
-@AllArgsConstructor
+@Service
+@Slf4j
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true)
 public class ReceiptServiceImpl implements ReceiptService {
-
 
     private HotelRepository hotelRepository;
     private HotelBookItemRepository hotelBookItemRepository;
     private HotelImageRepository hotelImageRepository;
-    private FavoriteHotelRepository favoriteHotelRepository;
     private HotelBookingReceiptRepository hotelBookingReceiptRepository;
     private ActivitiesBookingReceiptRepository activitiesBookingReceiptRepository;
     private ActivitiesRepository activitiesRepository;
@@ -70,7 +64,6 @@ public class ReceiptServiceImpl implements ReceiptService {
     private ActivitiesGameRepository activitiesGameRepository;
     private EmailService emailService;
 
-    private AccountService accountService;
 
     private AccountDAO accountDAO;
 
@@ -78,9 +71,6 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public BaseResponse bookingHotel(BookingRequest bookingRequest) {
         String userId = AuthenticationUtils.getUserId();
-        if (userId == null) {
-            throw new GeneralException(ErrorCode.UNAUTHORIZED);
-        }
         try {
 
             String bookingId = HelperUtils.genBookingID();
@@ -94,7 +84,7 @@ public class ReceiptServiceImpl implements ReceiptService {
 
             Hotel hotel = hotelRepository.findFirstByCode(bookingRequest.getHotelCode());
 
-            Account account  = accountDAO.getAccountById(hotel.getUserId());
+            Account account = accountDAO.getAccountById(hotel.getUserId());
 
             List<String> hotelImages = hotelImageRepository.findAllHotelByCode(hotel.getCode());
             HotelInfoDTO hotelInfoDTO = MappingUtils.map(hotel, HotelInfoDTO.class);
@@ -129,9 +119,6 @@ public class ReceiptServiceImpl implements ReceiptService {
     @Override
     public BaseResponse bookingActivities(BookingActivitiesRequest bookingRequest) {
         String userId = AuthenticationUtils.getUserId();
-        if (userId == null) {
-            throw new GeneralException(ErrorCode.UNAUTHORIZED);
-        }
         try {
 
             String bookingId = "A-" + HelperUtils.genBookingID();
@@ -144,10 +131,9 @@ public class ReceiptServiceImpl implements ReceiptService {
                     .build();
 
 
-
             Activities activities = activitiesRepository.findFirstByCode(bookingRequest.getActivitiesCode());
 
-            Account account  = accountDAO.getAccountById(activities.getUserId());
+            Account account = accountDAO.getAccountById(activities.getUserId());
 
             List<String> activitiesImageList = activitiesImageRepository.findAllActivitiesCode(activities.getCode());
 
@@ -197,13 +183,9 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
 
-
-
     public BaseResponse getListHotelReceipt(BookingStatus status, Integer page, Integer perPage) {
         String userId = AuthenticationUtils.getUserId();
-        if (userId == null) {
-            throw new GeneralException(ErrorCode.UNAUTHORIZED);
-        }
+
         List<HotelBookingReceipt> receiptList;
 
         Map<String, Integer> mapReturn = new HashMap<>();
@@ -231,61 +213,55 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
 
-
-    public BaseResponse getListActivitiesReceipt(BookingStatus status, Integer page, Integer perPage) {
+    @Override
+    public BaseResponse<List<ActivitiesBookingReceiptDTO>, Map<String, Integer>> getListActivitiesReceipt(BookingStatus status, Integer page, Integer perPage) {
         String userId = AuthenticationUtils.getUserId();
-        if (userId == null) {
-            throw new GeneralException(ErrorCode.UNAUTHORIZED);
-        }
+
         List<ActivitiesBookingReceipt> receiptList;
         Map<String, Integer> mapReturn = new HashMap<>();
-        if (status == null) {
+        if (Objects.isNull(status)) {
             receiptList = activitiesBookingReceiptRepository.findAllByPartnerIdOrderByCreatedAtDesc(userId, PageRequest.of(page, perPage));
             mapReturn.put("total", activitiesBookingReceiptRepository.countAllByPartnerId(userId));
         } else {
             receiptList = activitiesBookingReceiptRepository.findAllByPartnerIdAndStatusOrderByCreatedAtDesc(userId, status, PageRequest.of(page, perPage));
             mapReturn.put("total", activitiesBookingReceiptRepository.countAllByPartnerIdAndStatus(userId, status));
         }
+        log.info("Get List Booking Activities Receipt By Partner Successfully!");
         return BaseResponse.ok(MappingUtils.map(receiptList, ActivitiesBookingReceiptDTO.class), mapReturn);
     }
 
     @Override
-    public BaseResponse getListActivitiesReceiptByUserId(BookingStatus status, Integer page, Integer perPage) {
+    public BaseResponse<List<ActivitiesBookingReceiptDTO>, Map<String, Integer>> getListActivitiesReceiptByUserId(BookingStatus status, Integer pageNo, Integer pageSize) {
 
         String userId = AuthenticationUtils.getUserId();
-        if (userId == null) {
-            throw new GeneralException(ErrorCode.UNAUTHORIZED);
-        }
         List<ActivitiesBookingReceipt> receiptList;
         Map<String, Integer> mapReturn = new HashMap<>();
-        if (status == null) {
-            receiptList = activitiesBookingReceiptRepository.findAllByUserIdOrderByCreatedAtDesc(userId, PageRequest.of(page, perPage));
+        if (Objects.isNull(status)) {
+            receiptList = activitiesBookingReceiptRepository.findAllByUserIdOrderByCreatedAtDesc(userId, PageRequest.of(pageNo, pageSize));
             mapReturn.put("total", activitiesBookingReceiptRepository.countAllByUserId((userId)));
         } else {
-            receiptList = activitiesBookingReceiptRepository.findAllByUserIdAndStatusOrderByCreatedAtDesc(userId, status, PageRequest.of(page, perPage));
+            receiptList = activitiesBookingReceiptRepository.findAllByUserIdAndStatusOrderByCreatedAtDesc(userId, status, PageRequest.of(pageNo, pageSize));
             mapReturn.put("total", activitiesBookingReceiptRepository.countAllByUserIdAndStatus(userId, status));
         }
+        log.info("Get List Booking Activities Receipt By User Successfully!");
         return BaseResponse.ok(MappingUtils.map(receiptList, ActivitiesBookingReceiptDTO.class), mapReturn);
     }
 
     @Override
-    public BaseResponse getListHotelReceiptByUserId(BookingStatus status, Integer page, Integer perPage) {
+    public BaseResponse<List<HotelBookingReceiptDTO>, Map<String, Integer>> getListHotelReceiptByUserId(BookingStatus status, Integer page, Integer perPage) {
 
         String userId = AuthenticationUtils.getUserId();
-        if (userId == null) {
-            throw new GeneralException(ErrorCode.UNAUTHORIZED);
-        }
+        PageRequest pageRequest = PageRequest.of(page, perPage);
         List<HotelBookingReceipt> receiptList;
-
         Map<String, Integer> mapReturn = new HashMap<>();
-        if (status == null) {
-            receiptList = hotelBookingReceiptRepository.findAllByUserIdOrderByCreatedAtDesc(userId, PageRequest.of(page, perPage));
+        if (Objects.isNull(status)) {
+            receiptList = hotelBookingReceiptRepository.findAllByUserIdOrderByCreatedAtDesc(userId, pageRequest);
             mapReturn.put("total", hotelBookingReceiptRepository.countAllByUserId(userId));
         } else {
-            receiptList = hotelBookingReceiptRepository.findAllByUserIdAndStatusOrderByCreatedAtDesc(userId, status, PageRequest.of(page, perPage));
+            receiptList = hotelBookingReceiptRepository.findAllByUserIdAndStatusOrderByCreatedAtDesc(userId, status, pageRequest);
             mapReturn.put("total", hotelBookingReceiptRepository.countAllByUserIdAndStatus(userId, status));
         }
-
+        log.info("Get List Booking Hotel Receipt Successfully!");
         return BaseResponse.ok(MappingUtils.map(receiptList, HotelBookingReceiptDTO.class), mapReturn);
     }
 
@@ -295,68 +271,66 @@ public class ReceiptServiceImpl implements ReceiptService {
         if (receipt == null) {
             throw new ResourceNotFoundException();
         }
-        if(request.getStatus().equals(BookingStatus.BOOKING_APPROVED)){
-            receipt.setStatus(request.getStatus());
-            sendMailApprovedActivities(request , receipt);
-        }else{
-            receipt.setStatus(request.getStatus());
-            sendMailRejectActivities(request , receipt);
-        }
 
         receipt.setStatus(request.getStatus());
+        if (request.getStatus().equals(BookingStatus.BOOKING_APPROVED)) {
+            sendMailApprovedActivities(receipt);
+        } else {
+            sendMailRejectActivities(receipt);
+        }
+
         activitiesBookingReceiptRepository.save(receipt);
+        log.info("Partner Update Booking Status Activities Successfully with bookingId:{}", receipt.getBookingId());
     }
 
     @Override
     public void approveActivitiesBookingUserId(ActivitiesApproveBookingRequest request) {
         ActivitiesBookingReceipt receipt = activitiesBookingReceiptRepository.findFirstByBookingId(request.getBookingId());
-        if (receipt == null) {
+        if (Objects.isNull(receipt)) {
             throw new ResourceNotFoundException();
         }
 
         receipt.setStatus(request.getStatus());
         activitiesBookingReceiptRepository.save(receipt);
+        log.info("Update Booking Status Activities Successfully with bookingId:{}", receipt.getBookingId());
     }
 
 
-
-    private void sendMailApprovedActivities(ActivitiesApproveBookingRequest request  , ActivitiesBookingReceipt receipt) {
+    private void sendMailApprovedActivities(ActivitiesBookingReceipt receipt) {
         try {
             StringBuilder content = new StringBuilder();
-            content.append("Xin Chào Bạn ");
-            content.append("<p> Cảm ơn bản đã sử dụng dịch vụ của chúng tôi  </p>");
-            content.append("<p> Yêu cầu của bạn đã đc chúng tối chấp nhận   </p>");
-            content.append("<p> Làm ơn kiểm tra , thông tin đặt dịch vụ của bạn ở bên dưới </p>");
+            content.append(buildEmailHeader());
             content.append("<p> Ngày  đặt  :  \"" + formatDate(receipt.getTravelDate()) + "\"   </p>");
             content.append("<p> Số Lượng Người Lớn    :  \"" + receipt.getNumberTicketAdult() + "\"   </p>");
             content.append("<p> Số Lượng Trẻ Em   :  \"" + receipt.getNumberTicketChild() + "\"   </p>");
             content.append("<p> Tên Khu vui chơi   :  \"" + receipt.getActivitiesInfoDTO().getTitle() + "\"   </p>");
             content.append("<p> Địa Chỉ Khu vui chơi   :  \"" + receipt.getActivitiesInfoDTO().getAddress() + "\"   </p>");
-            String subject = "FPT ---THÔNG TIN DỊCH VỤ";
+            String subject = "HAU ---THÔNG TIN DỊCH VỤ";
 
             emailService.sendSimpleMessage(receipt.getContact().getEmail(), subject, content.toString());
         } catch (Exception e) {
-            log.debug(e);
+            log.debug(e.getMessage());
         }
     }
 
 
-    private void sendMailRejectActivities(ActivitiesApproveBookingRequest request  ,  ActivitiesBookingReceipt receipt) {
+    private void sendMailRejectActivities(ActivitiesBookingReceipt receipt) {
         try {
             StringBuilder content = new StringBuilder();
             content.append("Xin Chào Bạn ");
             content.append("<p> Cảm ơn bản đã sử dụng dịch vụ của chúng tôi  </p>");
             content.append("<p> Yêu cầu của bạn đã bị hủy  , do một số lý do nên yêu cầu của bạn k được chấp nhận  </p>");
             content.append("<p  Có điều gì thắc mắc xin liên hệ với SĐT của quản lý khu vui chơi : \"" + receipt.getActivitiesInfoDTO().getPhonePartner() + "\"     </p>");
-            String subject = "FPT ---THÔNG TIN DỊCH VỤ";
+            String subject = "HAU ---THÔNG TIN DỊCH VỤ";
 
             emailService.sendSimpleMessage(receipt.getContact().getEmail(), subject, content.toString());
         } catch (Exception e) {
-            log.debug(e);
+            log.debug(e.getMessage());
         }
     }
 
 
+    @Override
     public void approveHotelBookingUserId(HotelApproveBookingRequest request) {
         HotelBookingReceipt receipt = hotelBookingReceiptRepository.findFirstByBookingId(request.getBookingId());
         if (receipt == null) {
@@ -365,79 +339,76 @@ public class ReceiptServiceImpl implements ReceiptService {
 
         receipt.setStatus(request.getStatus());
         hotelBookingReceiptRepository.save(receipt);
+        log.info("User Update Booking Status Hotel Successfully with bookingId:{}", request.getBookingId());
     }
 
 
     @Override
     public void approveHotelBooking(HotelApproveBookingRequest request) {
         HotelBookingReceipt receipt = hotelBookingReceiptRepository.findFirstByBookingId(request.getBookingId());
-        if (receipt == null) {
+        if (Objects.isNull(receipt)) {
             throw new ResourceNotFoundException();
         }
+        receipt.setStatus(request.getStatus());
 
-        if(request.getStatus().equals(BookingStatus.BOOKING_APPROVED)){
-            receipt.setStatus(request.getStatus());
-            sendMailApprovedHotel(request , receipt);
-        }else{
-            receipt.setStatus(request.getStatus());
-            sendMailRejectHotel(request , receipt);
+        if (request.getStatus().equals(BookingStatus.BOOKING_APPROVED)) {
+            sendMailApprovedHotel(receipt);
+        } else {
+            sendMailRejectHotel(receipt);
         }
 
-
-        receipt.setStatus(request.getStatus());
         hotelBookingReceiptRepository.save(receipt);
+        log.info("Update Booking Status Hotel Successfully with bookingId:{}", receipt.getBookingId());
     }
 
 
-
-    private void sendMailApprovedHotel(HotelApproveBookingRequest restaurantApproveBookingRequest  , HotelBookingReceipt receipt) {
+    private void sendMailApprovedHotel(HotelBookingReceipt receipt) {
         try {
             StringBuilder content = new StringBuilder();
-            content.append("Xin Chào Bạn ");
-            content.append("<p> Cảm ơn bản đã sử dụng dịch vụ của chúng tôi  </p>");
-            content.append("<p> Yêu cầu của bạn đã đc chúng tối chấp nhận   </p>");
-            content.append("<p> Làm ơn kiểm tra , thông tin đặt dịch vụ của bạn ở bên dưới </p>");
+            content.append(buildEmailHeader());
             content.append("<p> Từ Ngày    :  \"" + formatDate(receipt.getCheckin()) + "\"   </p>");
             content.append("<p> Đến Ngày  :  \"" + formatDate(receipt.getCheckout()) + "\"   </p>");
             content.append("<p> Tên Hotel  :  \"" + receipt.getHotelInfoDTO().getTitle() + "\"   </p>");
             content.append("<p> Địa Chỉ Hotel   :  \"" + receipt.getHotelInfoDTO().getAddress() + "\"   </p>");
-            String subject = "FPT ---THÔNG TIN DỊCH VỤ";
+            String subject = "HAU ---THÔNG TIN DỊCH VỤ";
 
             emailService.sendSimpleMessage(receipt.getContact().getEmail(), subject, content.toString());
         } catch (Exception e) {
-            log.debug(e);
+            log.debug(e.getMessage());
         }
     }
 
-    private void sendMailRejectHotel(HotelApproveBookingRequest restaurantApproveBookingRequest  ,  HotelBookingReceipt receipt) {
+    private void sendMailRejectHotel(HotelBookingReceipt receipt) {
         try {
             StringBuilder content = new StringBuilder();
             content.append("Xin Chào Bạn ");
             content.append("<p> Cảm ơn bản đã sử dụng dịch vụ của chúng tôi  </p>");
-            content.append("<p> Yêu cầu của bạn đã bị hủy  , do một số lý do nên yêu cầu của bạn k được chấp nhận  </p>");
-            content.append("<p  Có điều gì thắc mắc xin liên hệ với SĐT của hotel : \"" + receipt.getHotelInfoDTO().getPhonePartner() + "\"     </p>");
-            String subject = "FPT ---THÔNG TIN DỊCH VỤ";
+            content.append("<p> Yêu cầu của bạn đã bị hủy  , do một số lý do nên yêu cầu của bạn không được chấp nhận  </p>");
+            content.append("<p>  Có điều gì thắc mắc xin liên hệ với SĐT của hotel : \"" + receipt.getHotelInfoDTO().getPhonePartner() + "\"     </p>");
+            String subject = "HAU ---THÔNG TIN DỊCH VỤ";
 
             emailService.sendSimpleMessage(receipt.getContact().getEmail(), subject, content.toString());
         } catch (Exception e) {
-            log.debug(e);
+            log.debug(e.getMessage());
         }
     }
 
 
-    public static String formatDate(Integer checkinDay) throws ParseException {
+    public static String formatDate(Integer checkInDay) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        Date date = sdf.parse(checkinDay.toString());
+        Date date = sdf.parse(checkInDay.toString());
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String strDate = dateFormat.format(date);
-        return strDate;
+        return dateFormat.format(date);
     }
 
-
-
-
-
-
+    public String buildEmailHeader() {
+        StringBuilder content = new StringBuilder();
+        content.append("Xin Chào Bạn,<br>");
+        content.append("<p> Cảm ơn bản đã sử dụng dịch vụ của chúng tôi  </p>");
+        content.append("<p> Yêu cầu của bạn đã đc chúng tối chấp nhận   </p>");
+        content.append("<p> Làm ơn kiểm tra , thông tin đặt dịch vụ của bạn ở bên dưới </p>");
+        return content.toString();
+    }
 
 }

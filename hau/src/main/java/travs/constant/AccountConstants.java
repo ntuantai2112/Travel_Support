@@ -8,6 +8,9 @@ public class AccountConstants {
 
     public static final String USERNAME_REQUIRED = "Tên đăng nhập không được để trống.";
     public static final String PASSWORD_REQUIRED = "Mật khẩu không được để trống.";
+    public static final String TOKEN_REQUIRED = "Token không được để trống.";
+    public static final String NEW_PASSWORD_REQUIRED = "Mật khẩu mới không được để trống.";
+    public static final String PASSWORD_WRONG = "Mật khẩu không đúng";
 
     public static final String NAME_REQUIRED = "Họ tên không được để trống.";
     public static final String PHONE_REQUIRED = "Số điện thoại không được để trống.";

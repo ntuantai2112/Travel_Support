@@ -1,23 +1,20 @@
 package travs.response.hotel;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import travs.common.type.BookingStatus;
-import lombok.*;
+import travs.response.BaseBookingReceiptResponse;
 
 
-@Builder
+@SuperBuilder
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class HotelBookingReceiptDTO {
-
-    private String id;
-
-    private String createdAt;
-
-    private String updatedAt;
-
-    private String bookingId;
+public class HotelBookingReceiptDTO extends BaseBookingReceiptResponse {
 
     private Integer totalNights;
 
