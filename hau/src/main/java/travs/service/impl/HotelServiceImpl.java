@@ -1,5 +1,7 @@
 package travs.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import travs.common.HotelType;
 import travs.common.type.ApproveStatus;
 import travs.common.type.ImageType;
@@ -46,13 +48,13 @@ import java.util.stream.Collectors;
 
 @Component
 @Log4j2
-@AllArgsConstructor
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true)
 public class HotelServiceImpl implements HotelService {
     private HotelRepository hotelRepository;
     private HotelBookItemRepository hotelBookItemRepository;
     private HotelImageRepository hotelImageRepository;
     private FavoriteRepository favoriteRepository;
-    private HotelBookingReceiptRepository hotelBookingReceiptRepository;
     private AmenitiesRepository amenitiesRepository;
 
     @Override

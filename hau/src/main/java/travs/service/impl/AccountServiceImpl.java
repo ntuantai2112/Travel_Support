@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import travs.constant.AccountConstants;
 import travs.constant.RoleEnum;
 import travs.constant.StatusCode;
 import travs.dao.AccountDAO;
@@ -31,7 +32,6 @@ import travs.utils.FileStore;
 import travs.utils.PasswordGenerator;
 import travs.utils.ValidateUtil;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -90,16 +90,8 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     public void update(AccountRequest request, String id) {
-        if (Objects.isNull(request) || StringUtils.isEmpty(request.getEmail()) ||
-            StringUtils.isEmpty(request.getDob()) || StringUtils.isEmpty(request.getPhone())) {
-            throw new RestApiException(StatusCode.DATA_EMPTY);
-        }
-        if (!ValidateUtil.isEmail(request.getEmail())) {
-            throw new RestApiException(StatusCode.EMAIL_NOT_RIGHT_FORMAT);
-        }
-        if (!ValidateUtil.isPhoneNumber(request.getPhone())) {
-            throw new RestApiException(StatusCode.PHONE_NUMBER_NOT_RIGHT_FORMAT);
-        }
+
+        validateRegisterAccount(request);
         Account account = accountDAO.getAccountById(id);
         if (Objects.isNull(account)) {
             throw new RestApiException(StatusCode.ACCOUNT_NOT_EXIST);
@@ -120,57 +112,30 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
         UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
-
         Account account = accountDAO.getAccountById(currentUser.getId());
-
-        if (!ValidateUtil.isPassword(changePasswordRequest.getNewPassword())) {
-            throw new RestApiException(1, "Mật Khẩu Không Đúng Định Dạng");
-        }
-        if (account != null && PasswordGenerator.checkHashStrings(changePasswordRequest.getPassword(), account.getPassword())) {
-            if (PasswordGenerator.checkHashStrings(changePasswordRequest.getNewPassword(), account.getPassword())) {
-                throw new RestApiException(1, "Mật Khẩu Mới Trung Mật Khẩu Cũ");
-            }
-            account.setPassword(PasswordGenerator.getHashString(changePasswordRequest.getNewPassword()));
-            accountDAO.save(account);
-        } else {
-            throw new DataIntegrityViolationException("wrong password");
-        }
-        accountDAO.save(account);
+        validateChangePassword(account,changePasswordRequest);
+        log.info("Change New Password Successfully!");
     }
 
 
     @Override
     public void updateProfile(AccountRequest request, String id) {
-        if (Objects.isNull(request) || StringUtils.isEmpty(request.getEmail()) ||
-            StringUtils.isEmpty(request.getDob())
-            || StringUtils.isEmpty(request.getPhone()) || StringUtils.isEmpty(request.getName())) {
-            throw new RestApiException(StatusCode.DATA_EMPTY);
-        }
-
-        if (!ValidateUtil.isEmail(request.getEmail())) {
-            throw new RestApiException(StatusCode.EMAIL_NOT_RIGHT_FORMAT);
-        }
-        if (!ValidateUtil.isPhoneNumber(request.getPhone())) {
-            throw new RestApiException(StatusCode.PHONE_NUMBER_NOT_RIGHT_FORMAT);
-        }
-
         Account account = accountDAO.getAccountById(id);
 
         if (Objects.isNull(account)) {
             throw new RestApiException(StatusCode.ACCOUNT_NOT_EXIST);
         }
 
-        String image1 = FileStore.getFilePath(request.getMultipartFile(), "-user");
-        if (image1 != null) {
-            request.setImage(image1);
+        String userAvatarPath = FileStore.getFilePath(request.getMultipartFile(), "-user");
+        if (userAvatarPath != null) {
+            request.setImage(userAvatarPath);
         }
 
         account.setPhone(request.getPhone());
         account.setName(request.getName());
         account.setDob(request.getDob());
-        account.setEmail(request.getEmail());
         account.setGender(request.getGender());
-        if (image1 != null) {
+        if (userAvatarPath != null) {
             if (account.getImage() != null) {
                 String image = account.getImage();
                 FileStore.deleteFile(image);
@@ -179,20 +144,20 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         }
         account.setDob(request.getDob());
         accountDAO.save(account);
-
+        log.info("Update Profile Successfully with id:{}",id);
     }
 
     @Override
     public void delete(String id) {
-        if (StringUtils.isEmpty(id)) {
+        if (!StringUtils.hasText(id)) {
             throw new RestApiException(StatusCode.DATA_EMPTY);
         }
         accountDAO.deleteAllById(id);
+        log.info("Delete Account Successfully with id:{}",id);
     }
 
 
     @Override
-    @Transactional
     public ApiResponse searchByNameEmailRole(String name, String email, String role, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
 
@@ -215,11 +180,11 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
                 .data(accountResponses)
                 .totalElement(totalPage)
                 .build();
-     }
+    }
 
     @Override
     public AccountResponse getById(String id) {
-        if (StringUtils.isEmpty(id)) {
+        if (!StringUtils.hasText(id)) {
             throw new RestApiException(StatusCode.DATA_EMPTY);
         }
         Account account = accountDAO.getAccountById(id);
@@ -228,20 +193,21 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         }
 
         AccountResponse response = convert(account);
+        log.info("Get Account Successfully with id:{}",id);
         return response;
     }
 
     @Override
     public AccountResponse getByEmail(String email) {
-        if (StringUtils.isEmpty(email)) {
+        if(!StringUtils.hasText(email)) {
             throw new RestApiException(StatusCode.DATA_EMPTY);
         }
         Account account = accountDAO.getAccountByEmail(email);
         if (Objects.isNull(account)) {
             throw new RestApiException(StatusCode.ACCOUNT_NOT_EXIST);
         }
-        AccountResponse response = convert(account);
-        return response;
+        log.info("Get Account Successfully with email:{}",email);
+        return convert(account);
 
     }
 
@@ -254,7 +220,6 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         if (Objects.isNull(account)) {
             throw new RestApiException(StatusCode.ACCOUNT_NOT_EXIST);
         }
-
         account.setEnabled(!account.getEnabled());
         accountDAO.save(account);
     }
@@ -271,7 +236,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         if (account == null) {
             throw new UsernameNotFoundException("not found");
         }
-        List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(account.getRole().getName()));
         UserPrincipal accountDTO = new UserPrincipal(account.getEmail(), account.getPassword(), account.getEnabled(), true, true,
                 true, authorities);
@@ -294,6 +259,28 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         }
         if (!ValidateUtil.isPhoneNumber(request.getPhone())) {
             throw new RestApiException(StatusCode.PHONE_NUMBER_NOT_RIGHT_FORMAT);
+        }
+    }
+
+    private void validateChangePassword(Account account,ChangePasswordRequest changePasswordRequest){
+        if(Objects.isNull(account)){
+            throw new RestApiException(StatusCode.ACCOUNT_NOT_EXIST.getStatus(),
+                    StatusCode.ACCOUNT_NOT_EXIST.getMessage());
+        }
+
+        if (!ValidateUtil.isPassword(changePasswordRequest.getNewPassword())) {
+            throw new RestApiException(StatusCode.NEW_PASSWORD_INVALID.getStatus(),
+                    StatusCode.NEW_PASSWORD_INVALID.getMessage());
+        }
+        if (PasswordGenerator.checkHashStrings(changePasswordRequest.getPassword(), account.getPassword())) {
+            if (PasswordGenerator.checkHashStrings(changePasswordRequest.getNewPassword(), account.getPassword())) {
+                throw new RestApiException(StatusCode.NEW_PASSWORD_SAME_AS_OLD.getStatus(),
+                        StatusCode.NEW_PASSWORD_SAME_AS_OLD.getMessage());
+            }
+            account.setPassword(PasswordGenerator.getHashString(changePasswordRequest.getNewPassword()));
+            accountDAO.save(account);
+        } else {
+            throw new DataIntegrityViolationException(AccountConstants.PASSWORD_WRONG);
         }
     }
 }

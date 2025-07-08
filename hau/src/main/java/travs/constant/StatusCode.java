@@ -10,7 +10,16 @@ public enum StatusCode {
 
     SUCCESS(200, "Success"),
     ERROR_UNKNOWN(1, "Error Unknown"),
+    TOKEN_INVALID(400,"Token false"),
     REGISTER_SUCCESS(420, "Register Successfully!"),
+    NEW_PASSWORD_INVALID(421, "Password is not in correct format"),
+    NEW_PASSWORD_SAME_AS_OLD(422, "New password must not be the same as the old password"),
+    RESET_PASSWORD_SUCCESS(423,"Reset Password Success"),
+    CUSTOMER_EMAIL_NOT_FOUND (424, "Could not find any customer with the email:"),
+    SEND_PASSWORD_RESET_LINK_SUCCESS (425, "Send Link  Forward Password Success!"),
+    UPDATE_PROFILE_SUCCESS (426, "Update Profile Success!"),
+
+
     ABSENT_DETAIL_NOT_EXIST(401, PropertiesReader.getProperty(PropertyKeys.ABSENT_DETAIL_NOT_EXIST)),
     APARTMENT_NOT_EXIST(402, PropertiesReader.getProperty(PropertyKeys.APARTMENT_NOT_EXIST)),
     ROOM_NUMBER_NOT_EXIST(403, PropertiesReader.getProperty(PropertyKeys.ROOM_NUMBER_NOT_EXIST)),

@@ -22,8 +22,8 @@ public class BaseResponse<D, M> {
                 .build();
     }
 
-    public static <D, M> BaseResponse ok(D data, M meta) {
-        return BaseResponse.builder()
+    public static <D, M> BaseResponse<D, M>  ok(D data, M meta) {
+        return BaseResponse.<D, M> builder()
                 .data(data)
                 .meta(meta)
                 .success(true)

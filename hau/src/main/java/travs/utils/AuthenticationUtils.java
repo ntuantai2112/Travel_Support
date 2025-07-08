@@ -1,5 +1,7 @@
 package travs.utils;
 
+import travs.constant.StatusCode;
+import travs.exception.RestApiException;
 import travs.model.UserPrincipal;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,7 +23,8 @@ public class AuthenticationUtils {
 
     public static String getUserId() {
         Optional<UserPrincipal> accountOptional = getAuthenticatedUser();
-        return accountOptional.map(UserPrincipal::getId).orElse(null);
+        return accountOptional.map(UserPrincipal::getId)
+                .orElseThrow(() -> new RestApiException(StatusCode.ACCOUNT_NOT_EXIST));
     }
 
     public static UserPrincipal getUserInfo() {

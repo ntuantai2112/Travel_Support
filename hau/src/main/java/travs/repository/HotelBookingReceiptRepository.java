@@ -22,7 +22,6 @@ public interface HotelBookingReceiptRepository extends JpaRepository<HotelBookin
     HotelBookingReceipt findFirstById(String receiptId);
 
 
-
     List<HotelBookingReceipt> findAllByUserIdOrderByCreatedAtDesc(String userId, Pageable pageable);
 
     List<HotelBookingReceipt> findAllByUserIdAndStatusOrderByCreatedAtDesc(String userId, BookingStatus status, Pageable pageable);
