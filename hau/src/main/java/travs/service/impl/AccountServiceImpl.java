@@ -7,11 +7,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import travs.constant.AccountConstants;
 import travs.constant.RoleEnum;
@@ -28,14 +28,13 @@ import travs.response.ApiResponse;
 import travs.response.account.AccountResponse;
 import travs.service.AccountService;
 import travs.service.EmailService;
+import travs.utils.AuthenticationUtils;
 import travs.utils.FileStore;
 import travs.utils.PasswordGenerator;
 import travs.utils.ValidateUtil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -53,8 +52,10 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     //add account
     @Override
     public void add(AccountRequest request) {
-        validateRegisterAccount(request);
+        validateRegisterAccount(request, false, true);
+
         Account account = accountMapper.toEntity(request);
+        account.setRole(new Role(request.getRoleId()));
         account.setPassword(PasswordGenerator.getHashString("123@123aB"));
         accountDAO.save(account);
 
@@ -66,8 +67,11 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     @Override
     public void resgister(AccountRequest request) {
-        validateRegisterAccount(request);
+        validateRegisterAccount(request, true, true);
         Account account = accountMapper.toEntity(request);
+        account.setRole(new Role(5L));
+        account.setImage(FileStore.getDefaultAvatar());
+        account.setPassword(PasswordGenerator.getHashString(request.getPassword()));
         accountDAO.save(account);
         log.info("Register Account Successfully!");
     }
@@ -91,29 +95,23 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     @Override
     public void update(AccountRequest request, String id) {
 
-        validateRegisterAccount(request);
+        validateRegisterAccount(request, false, false);
         Account account = accountDAO.getAccountById(id);
         if (Objects.isNull(account)) {
             throw new RestApiException(StatusCode.ACCOUNT_NOT_EXIST);
         }
-        account.setEmail(request.getEmail());
-        account.setDob(request.getDob());
-        account.setPhone(request.getPhone());
-        if (account.getRole() != null) {
-            account.setRole(new Role(request.getRoleId()));
-        }
-        account.setName(request.getName());
-        account.setGender(request.getGender());
+        accountMapper.updateEntityFromRequest(request, account);
         accountDAO.save(account);
+        log.info("Update Account Successfully with id:{}", id);
     }
 
     @Override
     public void changePassword(ChangePasswordRequest changePasswordRequest) {
 
-        UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+        UserPrincipal currentUser = AuthenticationUtils.getUserInfo();
         Account account = accountDAO.getAccountById(currentUser.getId());
-        validateChangePassword(account,changePasswordRequest);
+        //Validate and Change Password
+        validateChangePassword(account, changePasswordRequest);
         log.info("Change New Password Successfully!");
     }
 
@@ -144,43 +142,48 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         }
         account.setDob(request.getDob());
         accountDAO.save(account);
-        log.info("Update Profile Successfully with id:{}",id);
+        log.info("Update Profile Successfully with id:{}", id);
     }
 
+    @Transactional
     @Override
     public void delete(String id) {
         if (!StringUtils.hasText(id)) {
             throw new RestApiException(StatusCode.DATA_EMPTY);
         }
         accountDAO.deleteAllById(id);
-        log.info("Delete Account Successfully with id:{}",id);
+        log.info("Delete Account Successfully with id:{}", id);
     }
 
 
     @Override
-    public ApiResponse searchByNameEmailRole(String name, String email, String role, Integer page, Integer size) {
+    public ApiResponse<List<AccountResponse>> searchByNameEmailRole(String name, String email, String role, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
 
-        List<String> roles = null;
+        List<String> roles;
         if (role.isEmpty()) {
             roles = Arrays.asList(RoleEnum.ROLE_ADMIN.name(), RoleEnum.ROLE_PARTNER.name(),
                     RoleEnum.ROLE_MEMBER.name(), RoleEnum.ROLE_EMPLOYEE.name(), RoleEnum.ROLE_CONTENT.name());
         } else {
-            roles = Arrays.asList(role);
+            roles = Collections.singletonList(role);
         }
-
 
         Long totalPage = accountDAO.countAccountByNameAndEmailAndRole(name, email, roles);
         Page<Account> accounts = accountDAO.searchAccountByNameEmailRole(name, email, roles, pageable);
 
-        List<AccountResponse> accountResponses = new ArrayList<>();
-        accounts.forEach(account -> accountResponses.add(convert(account)));
+        List<AccountResponse> accountResponses = accounts.stream().map(this::convert).collect(Collectors.toList());
 
-        return ApiResponse.builder()
+        log.info("Search Account Successfully!");
+
+        return ApiResponse.<List<AccountResponse>>builder()
+                .code(StatusCode.SUCCESS.getStatus())
+                .message(StatusCode.SUCCESS.getMessage())
                 .data(accountResponses)
                 .totalElement(totalPage)
                 .build();
+
     }
+
 
     @Override
     public AccountResponse getById(String id) {
@@ -193,20 +196,20 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         }
 
         AccountResponse response = convert(account);
-        log.info("Get Account Successfully with id:{}",id);
+        log.info("Get Account Successfully with id:{}", id);
         return response;
     }
 
     @Override
     public AccountResponse getByEmail(String email) {
-        if(!StringUtils.hasText(email)) {
+        if (!StringUtils.hasText(email)) {
             throw new RestApiException(StatusCode.DATA_EMPTY);
         }
         Account account = accountDAO.getAccountByEmail(email);
         if (Objects.isNull(account)) {
             throw new RestApiException(StatusCode.ACCOUNT_NOT_EXIST);
         }
-        log.info("Get Account Successfully with email:{}",email);
+        log.info("Get Account Successfully with email:{}", email);
         return convert(account);
 
     }
@@ -222,6 +225,7 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
         }
         account.setEnabled(!account.getEnabled());
         accountDAO.save(account);
+        log.info("Lock Account Successfully with id:{}", id);
     }
 
 
@@ -247,23 +251,40 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
 
-    private void validateRegisterAccount(AccountRequest request) {
-
-        Account searchAccountByEmail = accountDAO.getAccountByEmail(request.getEmail());
-        if (Objects.nonNull(searchAccountByEmail)) {
-            throw new RestApiException(StatusCode.ACCOUNT_REGISTER);
-        }
+    private void validateRegisterAccount(AccountRequest request, boolean isRequiredPassword, boolean isCreate) {
 
         if (!ValidateUtil.isEmail(request.getEmail())) {
             throw new RestApiException(StatusCode.EMAIL_NOT_RIGHT_FORMAT);
         }
+
         if (!ValidateUtil.isPhoneNumber(request.getPhone())) {
             throw new RestApiException(StatusCode.PHONE_NUMBER_NOT_RIGHT_FORMAT);
         }
+
+        if (isCreate) {
+            Account existedAccount = accountDAO.getAccountByEmail(request.getEmail());
+            if (existedAccount != null) {
+                throw new RestApiException(StatusCode.ACCOUNT_REGISTER);
+            }
+        }
+
+        if (isRequiredPassword) {
+            String password = request.getPassword().trim();
+            if (!StringUtils.hasText(password)) {
+                throw new RestApiException(StatusCode.NEW_PASSWORD_REQUIRED);
+            }
+
+            if (!ValidateUtil.isPassword(password)) {
+                throw new RestApiException(StatusCode.NEW_PASSWORD_INVALID.getStatus(),
+                        StatusCode.NEW_PASSWORD_INVALID.getMessage());
+            }
+        }
+
+
     }
 
-    private void validateChangePassword(Account account,ChangePasswordRequest changePasswordRequest){
-        if(Objects.isNull(account)){
+    private void validateChangePassword(Account account, ChangePasswordRequest changePasswordRequest) {
+        if (Objects.isNull(account)) {
             throw new RestApiException(StatusCode.ACCOUNT_NOT_EXIST.getStatus(),
                     StatusCode.ACCOUNT_NOT_EXIST.getMessage());
         }

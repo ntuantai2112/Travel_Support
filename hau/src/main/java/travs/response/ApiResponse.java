@@ -13,9 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    @Builder.Default
-    private LocalDateTime timestamp = LocalDateTime.now();
+
     private Long totalElement;
     private Object data;
     private Integer code;
@@ -35,6 +33,15 @@ public class ApiResponse<T> {
                 .code(code)
                 .message(message)
                 .result(result)
+                .build();
+    }
+
+    public static <T> ApiResponse<T> build(Integer code, String message, T result, Long totalElement) {
+        return ApiResponse.<T>builder()
+                .code(code)
+                .message(message)
+                .result(result)
+                .totalElement(totalElement)
                 .build();
     }
 

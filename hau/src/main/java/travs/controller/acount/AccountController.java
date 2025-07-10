@@ -1,7 +1,6 @@
 package travs.controller.acount;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import travs.constant.Constants;
 import travs.constant.PropertyKeys;
@@ -16,6 +15,7 @@ import travs.request.account.ForwardPasswordRequest;
 import travs.response.ApiResponse;
 import travs.service.AccountService;
 import travs.service.EmailService;
+import travs.utils.AuthenticationUtils;
 import travs.utils.PropertiesReader;
 import travs.utils.RandomNumber;
 
@@ -39,9 +39,7 @@ public class AccountController {
     @PostMapping("/member/update/profile")
     public ApiResponse<Void> updateAccountProfile(@ModelAttribute AccountRequest accountRequest) {
 
-        UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
-
+        UserPrincipal currentUser = AuthenticationUtils.getUserInfo();
         accountService.updateProfile(accountRequest, currentUser.getId());
         return ApiResponse.build(StatusCode.UPDATE_PROFILE_SUCCESS.getStatus(),
                 StatusCode.UPDATE_PROFILE_SUCCESS.getMessage());
@@ -74,7 +72,7 @@ public class AccountController {
     }
 
     // api reset password
-    @PostMapping(Constants.UrlPath.URL_API_Reset_PassWord)
+    @PostMapping(Constants.UrlPath.URL_API_RESET_PASSWORD)
     public ApiResponse<Void> resetPassword(@RequestBody @Valid ForwardPasswordRequest forwardPasswordRequest) {
         String token = forwardPasswordRequest.getToken();
         Account account = sendEmailAccountDao.findAccountByResetPasswordToken(token);
@@ -88,7 +86,7 @@ public class AccountController {
     }
 
     // api thay đổi pass word
-    @PostMapping(Constants.UrlPath.URL_API_Change_PassWord)
+    @PostMapping(Constants.UrlPath.URL_API_CHANCE_PASSWORD)
     public ApiResponse<Void> changePassword(@RequestBody @Valid ChangePasswordRequest changePasswordRequest) {
         accountService.changePassword(changePasswordRequest);
         return ApiResponse.build(StatusCode.SUCCESS.getStatus(), StatusCode.SUCCESS.getMessage());

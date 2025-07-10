@@ -21,7 +21,6 @@ public class AccountRequest {
     @NotBlank(message = AccountConstants.NAME_REQUIRED)
     private String name;
 
-    @NotBlank(message = AccountConstants.PASSWORD_REQUIRED)
     private String password;
 
     @NotBlank(message = AccountConstants.PHONE_REQUIRED)
