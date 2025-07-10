@@ -12,6 +12,7 @@ public enum StatusCode {
     ERROR_UNKNOWN(1, "Error Unknown"),
     TOKEN_INVALID(400,"Token false"),
     REGISTER_SUCCESS(420, "Register Successfully!"),
+    NEW_PASSWORD_REQUIRED(430, "Password cannot be left blank"),
     NEW_PASSWORD_INVALID(421, "Password is not in correct format"),
     NEW_PASSWORD_SAME_AS_OLD(422, "New password must not be the same as the old password"),
     RESET_PASSWORD_SUCCESS(423,"Reset Password Success"),

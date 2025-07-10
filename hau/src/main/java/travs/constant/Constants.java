@@ -14,8 +14,8 @@ public class Constants {
         public static final String URL_API_LOGIN = "/login";
         public static final String URL_API_PROFILE = "/member/account/profile";
         public static final String URL_API_FORWARD_PASSWORD= "/forward-password";
-        public static final String URL_API_Reset_PassWord= "/reset-password";
-        public static final String URL_API_Change_PassWord= "/member/change-password";
+        public static final String URL_API_RESET_PASSWORD= "/reset-password";
+        public static final String URL_API_CHANCE_PASSWORD= "/member/change-password";
     }
 
     public class FileProperties {
