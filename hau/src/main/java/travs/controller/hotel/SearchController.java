@@ -1,17 +1,16 @@
 package travs.controller.hotel;
 
-import lombok.RequiredArgsConstructor;
-import travs.service.SearchService;
-import travs.request.FilterRequest;
-import travs.request.SearchRequest;
-import travs.request.activities.FilterRequestActivities;
-import travs.response.BaseResponse;
-import travs.service.ActivitiesSearchService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import travs.request.FilterRequest;
+import travs.request.SearchRequest;
+import travs.request.activities.FilterRequestActivities;
+import travs.response.BaseResponse;
+import travs.service.ActivitiesSearchService;
+import travs.service.SearchService;
 
 @RestController
 @RequestMapping("/search")
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class SearchController {
 
-    private  SearchService searchService;
+    private SearchService searchService;
     private ActivitiesSearchService activitiesSearchService;
 
     // search hotel bởi người dùng

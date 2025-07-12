@@ -31,7 +31,7 @@ public class MemberController {
 
     // api trả về list book khu vui chơi của member
     @GetMapping("/activities/booking/list")
-    public BaseResponse<List<ActivitiesBookingReceiptDTO>, Map<String, Integer>> getListActivitiesByUserId(@RequestParam(value = "status", required = false) BookingStatus status,
+    public BaseResponse getListActivitiesByUserId(@RequestParam(value = "status", required = false) BookingStatus status,
                                                                                                            @RequestParam(value = "pageNo", defaultValue = "0") Integer pageNo,
                                                                                                            @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize) {
         return receiptService.getListActivitiesReceiptByUserId(status, pageNo, pageSize);
@@ -40,7 +40,7 @@ public class MemberController {
 
     // api trả về list book hotel của member
     @GetMapping("/hotel/booking/list")
-    public BaseResponse<List<HotelBookingReceiptDTO>, Map<String, Integer>> getListHotelByPartner(@RequestParam(value = "status", required = false) BookingStatus status,
+    public BaseResponse getListHotelByPartner(@RequestParam(value = "status", required = false) BookingStatus status,
                                                                                                   @RequestParam(value = "page", defaultValue = "0") Integer page,
                                                                                                   @RequestParam(value = "perPage", defaultValue = "5") Integer perPage) {
         return receiptService.getListHotelReceiptByUserId(status, page, perPage);

@@ -243,7 +243,7 @@ public class CustomerServiceImplTest {
         title = HelperUtils.unAccent(title);
 
         if (StringUtils.isBlank(title)) {
-            Mockito.when(activitiesRepository.findAllHotel()).thenReturn(activitiesList);
+            Mockito.when(activitiesRepository.findAllActivity()).thenReturn(activitiesList);
             List<String> productCodes = activitiesList.stream().map(Activities::getCode).collect(Collectors.toList());
             Mockito.when(activitiesRepository.findByCodeInOrderByCreatedAtDesc(Mockito.any())).thenReturn(activitiesList);
 

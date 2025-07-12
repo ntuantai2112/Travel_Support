@@ -1,6 +1,8 @@
 package travs.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +16,8 @@ import travs.response.account.AccountResponse;
 import travs.response.token.TokenResponse;
 import travs.sercurity.JwtTokenProvider;
 import travs.service.AccountService;
+import travs.service.impl.AccountServiceImpl;
+import travs.utils.AuthenticationUtils;
 
 import javax.validation.Valid;
 
@@ -22,6 +26,7 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "*", maxAge = -1)
 @RequiredArgsConstructor
 public class LoginController {
+
 
     private final AuthenticationManager authenticationManager;
 
@@ -39,13 +44,10 @@ public class LoginController {
 
     // api get profile
     @GetMapping(Constants.UrlPath.URL_API_PROFILE)
-    public ApiResponse<AccountResponse> getAccount() {
-        UserPrincipal currentUser = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+    public ResponseEntity<AccountResponse> getAccount() {
+        UserPrincipal currentUser = AuthenticationUtils.getUserInfo();
         AccountResponse accountResponse = accountService.getById(currentUser.getId());
-        return ApiResponse.build(StatusCode.SUCCESS.getStatus(),
-                StatusCode.SUCCESS.getMessage(),
-                accountResponse);
+        return new ResponseEntity<>(accountResponse, HttpStatus.OK);
     }
 
 

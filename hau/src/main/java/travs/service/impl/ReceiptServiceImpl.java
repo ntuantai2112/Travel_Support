@@ -231,29 +231,31 @@ public class ReceiptServiceImpl implements ReceiptService {
     }
 
     @Override
-    public BaseResponse<List<ActivitiesBookingReceiptDTO>, Map<String, Integer>> getListActivitiesReceiptByUserId(BookingStatus status, Integer pageNo, Integer pageSize) {
+    public BaseResponse getListActivitiesReceiptByUserId(BookingStatus status, Integer pageNo, Integer pageSize) {
 
         String userId = AuthenticationUtils.getUserId();
-        List<ActivitiesBookingReceipt> receiptList;
+        List<ActivitiesBookingReceipt> activitiesBookingReceipts;
         Map<String, Integer> mapReturn = new HashMap<>();
         if (Objects.isNull(status)) {
-            receiptList = activitiesBookingReceiptRepository.findAllByUserIdOrderByCreatedAtDesc(userId, PageRequest.of(pageNo, pageSize));
+            activitiesBookingReceipts = activitiesBookingReceiptRepository.findAllByUserIdOrderByCreatedAtDesc(userId, PageRequest.of(pageNo, pageSize));
             mapReturn.put("total", activitiesBookingReceiptRepository.countAllByUserId((userId)));
         } else {
-            receiptList = activitiesBookingReceiptRepository.findAllByUserIdAndStatusOrderByCreatedAtDesc(userId, status, PageRequest.of(pageNo, pageSize));
+            activitiesBookingReceipts = activitiesBookingReceiptRepository.findAllByUserIdAndStatusOrderByCreatedAtDesc(userId, status, PageRequest.of(pageNo, pageSize));
             mapReturn.put("total", activitiesBookingReceiptRepository.countAllByUserIdAndStatus(userId, status));
         }
         log.info("Get List Booking Activities Receipt By User Successfully!");
-        return BaseResponse.ok(MappingUtils.map(receiptList, ActivitiesBookingReceiptDTO.class), mapReturn);
+        return BaseResponse.ok(MappingUtils.map(activitiesBookingReceipts, ActivitiesBookingReceiptDTO.class), mapReturn);
     }
 
     @Override
-    public BaseResponse<List<HotelBookingReceiptDTO>, Map<String, Integer>> getListHotelReceiptByUserId(BookingStatus status, Integer page, Integer perPage) {
+    public BaseResponse getListHotelReceiptByUserId(BookingStatus status, Integer page, Integer perPage) {
 
         String userId = AuthenticationUtils.getUserId();
         PageRequest pageRequest = PageRequest.of(page, perPage);
         List<HotelBookingReceipt> receiptList;
+
         Map<String, Integer> mapReturn = new HashMap<>();
+
         if (Objects.isNull(status)) {
             receiptList = hotelBookingReceiptRepository.findAllByUserIdOrderByCreatedAtDesc(userId, pageRequest);
             mapReturn.put("total", hotelBookingReceiptRepository.countAllByUserId(userId));
