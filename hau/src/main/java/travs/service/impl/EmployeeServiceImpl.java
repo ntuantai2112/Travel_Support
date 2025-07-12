@@ -1,6 +1,17 @@
 package travs.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 import travs.common.type.ApproveStatus;
+import travs.entity.activities.Activities;
+import travs.entity.activities.ActivitiesGame;
+import travs.entity.activities.ActivitiesImage;
+import travs.entity.hotel.Amenities;
+import travs.entity.hotel.Hotel;
+import travs.entity.hotel.HotelImage;
 import travs.entity.restaurant.Restaurant;
 import travs.entity.restaurant.RestaurantImage;
 import travs.entity.restaurant.RestaurantMenu;
@@ -13,6 +24,9 @@ import travs.repository.activities.ActivitiesRepository;
 import travs.repository.restaurant.RestaurantImageRepository;
 import travs.repository.restaurant.RestaurantMenuRepository;
 import travs.repository.restaurant.RestaurantRepository;
+import travs.request.activities.ActivitiesApproveRequest;
+import travs.request.hotel.HotelApproveRequest;
+import travs.request.restaurant.RestaurantApproveRequest;
 import travs.response.BaseResponse;
 import travs.response.activities.ActivitiesDTO;
 import travs.response.activities.ActivitiesGameDTO;
@@ -20,22 +34,9 @@ import travs.response.hotel.FacilityDTO;
 import travs.response.hotel.HotelDTO;
 import travs.response.restaurant.RestaurantDTO;
 import travs.response.restaurant.RestaurantMenuDTO;
+import travs.service.EmployeeService;
 import travs.utils.HelperUtils;
 import travs.utils.MappingUtils;
-import travs.entity.activities.Activities;
-import travs.entity.activities.ActivitiesGame;
-import travs.entity.activities.ActivitiesImage;
-import travs.entity.hotel.Amenities;
-import travs.entity.hotel.Hotel;
-import travs.entity.hotel.HotelImage;
-import travs.request.activities.ActivitiesApproveRequest;
-import travs.request.hotel.HotelApproveRequest;
-import travs.request.restaurant.RestaurantApproveRequest;
-import travs.service.EmployeeService;
-import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +47,8 @@ import java.util.stream.Collectors;
 
 @Service
 @Log4j2
-@AllArgsConstructor
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true)
 public class EmployeeServiceImpl implements EmployeeService {
     private HotelRepository hotelRepository;
     private AmenitiesRepository amenitiesRepository;
@@ -61,172 +63,203 @@ public class EmployeeServiceImpl implements EmployeeService {
     private RestaurantImageRepository restaurantImageRepository;
 
 
+    @Override
     public void approveHotel(HotelApproveRequest hotelApproveRequest) {
         Hotel hotel = hotelRepository.findFirstByCode(hotelApproveRequest.getHotelCode());
         hotel.setApproveStatus(hotelApproveRequest.getStatus());
         hotelRepository.save(hotel);
+        log.info("Update Hotel status approval successful with code:{}", hotelApproveRequest.getHotelCode());
     }
 
-    public BaseResponse getListHotel(String hotelName, ApproveStatus status, Integer page, Integer perPage) {
-        List<Hotel> hotelList;
-        if (status == null && hotelName.isEmpty()) {
-            hotelList = hotelRepository.findAllHotel();
-        } else if (hotelName.isEmpty()) {
-            hotelList = hotelRepository.findHotelByApproveStatusOrderByCreatedAtDesc(status);
-        } else if (status == null) {
-            hotelList = hotelRepository.findAllByTitle((HelperUtils.unAccent(hotelName)));
-        } else {
-            hotelList = hotelRepository.findAllByTitleAndApproveStatus(HelperUtils.unAccent(hotelName), status.name());
-        }
-        List<String> productCodes = hotelList.stream().map(Hotel::getCode).collect(Collectors.toList());
-        List<Amenities> amenitiesList = amenitiesRepository.findAll();
-        Map<Integer, Amenities> map = amenitiesList.stream().collect(Collectors.toMap(Amenities::getId, Function.identity()));
+    @Override
+    public BaseResponse<List<HotelDTO>, Map<String, Integer>> getListHotel(String hotelName, ApproveStatus status, Integer page, Integer perPage) {
+        List<Hotel> hotelList = getFilteredHotels(hotelName, status);
+        List<String> productCodes = extractCodes(hotelList, Hotel::getCode);
 
         List<Hotel> hotelListQuery = hotelRepository.findByCodeInOrderByCreatedAtDesc(productCodes, PageRequest.of(page, perPage));
         List<HotelDTO> hotels = MappingUtils.map(hotelListQuery, HotelDTO.class);
-        hotels.forEach(hotel -> hotel.setFacilityDTOList(hotel.getAmenities()
-                .stream().map(amenitiesId -> FacilityDTO.builder()
-                        .id(amenitiesId.toString())
-                        .name(map.get(amenitiesId).getName())
-                        .icon(map.get(amenitiesId).getIcon())
-                        .build())
-                .collect(Collectors.toList())));
 
-        List<HotelImage> hotelImages = hotelImageRepository.findUniqueImage(productCodes);
-        Map<String, String> mapImage = hotelImages.stream().collect(Collectors.toMap(HotelImage::getHotelCode, HotelImage::getUrl));
+        enrichWithAmenities(hotels);
+        enrichWithImage(hotels, productCodes);
 
-        hotels.forEach(hotel -> {
-            String imageUrl = mapImage.get(hotel.getCode());
-            if (imageUrl != null) {
-                hotel.setImage(imageUrl);
-            }
-        });
-
-        Map<String, Integer> mapReturn = new HashMap<>();
-        mapReturn.put("total", productCodes.size());
+        Map<String, Integer> mapReturn = getTotalPage(productCodes);
+        log.info("Search List Hotel by name and status of employee successfully!");
         return BaseResponse.ok(hotels, mapReturn);
     }
 
+    @Override
     public void approveActivities(ActivitiesApproveRequest activitiesApproveRequest) {
         Activities activities = activitiesRepository.findFirstByCode(activitiesApproveRequest.getActivitiesCode());
         activities.setApproveStatus(activitiesApproveRequest.getStatus());
         activitiesRepository.save(activities);
+        log.info("Update Activity status approval successful with code:{}", activitiesApproveRequest.getActivitiesCode());
     }
-
 
 
     @Override
     public void approveRestaurant(RestaurantApproveRequest restaurantApproveRequest) {
-        Restaurant restaurant  = restaurantRepository.findFirstByCode(restaurantApproveRequest.getRestaurantCode());
+        Restaurant restaurant = restaurantRepository.findFirstByCode(restaurantApproveRequest.getRestaurantCode());
         restaurant.setApproveStatus(restaurantApproveRequest.getStatus());
         restaurantRepository.save(restaurant);
+        log.info("Update Restaurant status approval successful with code:{}", restaurantApproveRequest.getRestaurantCode());
+    }
+
+    @Override
+    public BaseResponse<List<ActivitiesDTO>, Map<String, Integer>> getListActivities(String activitiesName, ApproveStatus status, Integer page, Integer perPage) {
+        List<Activities> activitiesList = filterActivitiesByTitleAndStatus(activitiesName, status);
+        List<String> productCodes = extractCodes(activitiesList, Activities::getCode);
+        List<Activities> activitiesListQuery = activitiesRepository.findByCodeInOrderByCreatedAtDesc(productCodes, PageRequest.of(page, perPage));
+        List<ActivitiesDTO> activitiesDTOList = MappingUtils.map(activitiesListQuery, ActivitiesDTO.class);
+
+        List<ActivitiesImage> activitiesImages = activitiesImageRepository.findUniqueImage(productCodes);
+        Map<String, String> mapImage = activitiesImages.stream().collect(Collectors.toMap(ActivitiesImage::getActivitiesCode, ActivitiesImage::getUrl));
+        Map<String, List<ActivitiesGameDTO>> gameMaps = getGameMap(activitiesDTOList);
+        attachImageAndGame(activitiesDTOList, mapImage, gameMaps);
+        Map<String, Integer> mapReturn = getTotalPage(productCodes);
+        log.info("Search List Activities by name and status of employee successfully!");
+        return BaseResponse.ok(activitiesDTOList, mapReturn);
     }
 
 
-    public BaseResponse getListActivities(String activitiesName, ApproveStatus status, Integer page, Integer perPage) {
-        List<Activities> activitiesList;
-        if (status == null && activitiesName.isEmpty()) {
-            activitiesList = activitiesRepository.findAllHotel();
-        } else if (activitiesName.isEmpty()) {
-            activitiesList = activitiesRepository.findActivitiesByApproveStatusOrderByCreatedAtDesc(status);
-        } else if (status == null) {
-            activitiesList = activitiesRepository.findAllByTitle((HelperUtils.unAccent(activitiesName)));
-        } else {
-            activitiesList = activitiesRepository.findAllByTitleAndApproveStatus(HelperUtils.unAccent(activitiesName), status.name());
+    @Override
+    public BaseResponse<List<RestaurantDTO>, Map<String, Integer>> getListRestaurant(String restaurantName, ApproveStatus status, Integer page, Integer perPage) {
+        List<Restaurant> restaurantList = filterRestaurantByTitleAndStatus(restaurantName, status);
+        List<String> productCodes = extractCodes(restaurantList, Restaurant::getCode);
+        List<Restaurant> restaurantListQuery = restaurantRepository.findByCodeInOrderByCreatedAtDesc(productCodes, PageRequest.of(page, perPage));
+        List<RestaurantDTO> restaurantDTOList = MappingUtils.map(restaurantListQuery, RestaurantDTO.class);
+
+        List<RestaurantImage> restaurantImages = restaurantImageRepository.findUniqueImage(productCodes);
+        Map<String, String> mapImage = restaurantImages.stream().collect(Collectors.toMap(RestaurantImage::getRestaurantCode, RestaurantImage::getUrl));
+
+        Map<String, List<RestaurantMenuDTO>> menuMaps = groupMenuByRestaurantCode(restaurantDTOList);
+
+        restaurantDTOList.forEach(restaurant -> {
+            String imageUrl = mapImage.get(restaurant.getCode());
+            if (imageUrl != null) {
+                restaurant.setImage(imageUrl);
+            }
+            restaurant.setRestaurantMenuDTOList(menuMaps.get(restaurant.getCode()));
+
+        });
+
+        Map<String, Integer> mapReturn = getTotalPage(productCodes);
+        log.info("Search List Restaurant by name and status of employee successfully!");
+        return BaseResponse.ok(restaurantDTOList, mapReturn);
+    }
+
+    // Xử lý Hotel
+    private List<Hotel> getFilteredHotels(String hotelName, ApproveStatus status) {
+        boolean isNameEmpty = (hotelName == null || hotelName.trim().isEmpty());
+        if (status == null && isNameEmpty) {
+            return hotelRepository.findAllHotel();
         }
-        List<String> productCodes = activitiesList.stream().map(Activities::getCode).collect(Collectors.toList());
-        List<ActivitiesGame> amenitiesList = activitiesGameRepository.findAll();
-        Map<Integer, ActivitiesGame> map = amenitiesList.stream().collect(Collectors.toMap(ActivitiesGame::getId, Function.identity()));
+        if (isNameEmpty) {
+            return hotelRepository.findHotelByApproveStatusOrderByCreatedAtDesc(status);
+        }
+        String normalizedName = HelperUtils.unAccent(hotelName);
+        if (status == null) {
+            return hotelRepository.findAllByTitle(normalizedName);
+        }
+        return hotelRepository.findAllByTitleAndApproveStatus(normalizedName, status.name());
+    }
 
-        List<Activities> activitiesListQuery = activitiesRepository.findByCodeInOrderByCreatedAtDesc(productCodes, PageRequest.of(page, perPage));
 
-        List<ActivitiesDTO> activitiesDTOList = MappingUtils.map(activitiesListQuery, ActivitiesDTO.class);
-        List<ActivitiesImage> activitiesImages = activitiesImageRepository.findUniqueImage(productCodes);
-        Map<String, String> mapImage = activitiesImages.stream().collect(Collectors.toMap(ActivitiesImage::getActivitiesCode, ActivitiesImage::getUrl));
+    private void enrichWithAmenities(List<HotelDTO> hotelDTOs) {
+        Map<Integer, Amenities> amenitiesMap = amenitiesRepository.findAll()
+                .stream().collect(Collectors.toMap(Amenities::getId, Function.identity()));
 
-        List<ActivitiesGame> activitiesGameList = activitiesGameRepository.findAllByActivitiesCodeIn(activitiesDTOList.stream().map(ActivitiesDTO::getCode).collect(Collectors.toList()));
+        for (HotelDTO hotel : hotelDTOs) {
+            List<FacilityDTO> facilities = hotel.getAmenities().stream()
+                    .map(id -> {
+                        Amenities amenities = amenitiesMap.get(id);
+                        return FacilityDTO.builder()
+                                .id(String.valueOf(id))
+                                .name(amenities.getName())
+                                .icon(amenities.getIcon())
+                                .build();
+                    })
+                    .collect(Collectors.toList());
+            hotel.setFacilityDTOList(facilities);
+        }
+    }
+
+    private void enrichWithImage(List<HotelDTO> hotelDTOs, List<String> codes) {
+        Map<String, String> imageMap = hotelImageRepository.findUniqueImage(codes)
+                .stream().collect(Collectors.toMap(HotelImage::getHotelCode, HotelImage::getUrl));
+
+        hotelDTOs.forEach(hotel -> hotel.setImage(imageMap.get(hotel.getCode())));
+    }
+
+    private Map<String, Integer> getTotalPage(List<String> productCodes) {
+        Map<String, Integer> mapReturn = new HashMap<>();
+        mapReturn.put("total", productCodes.size());
+        return mapReturn;
+    }
+
+    // Hàm lấy ra Code theo từng đối tượng
+    private <T> List<String> extractCodes(List<T> list, Function<T, String> codeExtractor) {
+        return list.stream().map(codeExtractor).collect(Collectors.toList());
+    }
+
+    // lấy danh sách Activities
+    private List<Activities> filterActivitiesByTitleAndStatus(String title, ApproveStatus status) {
+        if (status == null && title.isEmpty()) return activitiesRepository.findAllActivity();
+        if (title.isEmpty()) return activitiesRepository.findActivitiesByApproveStatusOrderByCreatedAtDesc(status);
+        String unAccent = HelperUtils.unAccent(title);
+        if (status == null) return activitiesRepository.findAllByTitle(unAccent);
+        return activitiesRepository.findAllByTitleAndApproveStatus(unAccent, status.name());
+    }
+
+    // xử lý ActivitiesGame và trả về kiểu Map theo giá trị tương ứng.
+    // Lấy ActivitiesGame theo code:
+    private Map<String, List<ActivitiesGameDTO>> getGameMap(List<ActivitiesDTO> activitiesDTOList) {
+        List<String> activitiesCodeDTO = activitiesDTOList.stream().map(ActivitiesDTO::getCode).collect(Collectors.toList());
+        List<ActivitiesGame> activitiesGameList = activitiesGameRepository.findAllByActivitiesCodeIn(activitiesCodeDTO);
 
         Map<String, List<ActivitiesGameDTO>> gameMaps = new HashMap<>();
 
         activitiesGameList.forEach(activitiesGame -> {
             ActivitiesGameDTO gameDTO = MappingUtils.map(activitiesGame, ActivitiesGameDTO.class);
-            if (gameMaps.get(activitiesGame.getActivitiesCode()) == null || gameMaps.get(activitiesGame.getActivitiesCode()).isEmpty()) {
-                List<ActivitiesGameDTO> dtoList = new ArrayList<>();
-                dtoList.add(gameDTO);
-                gameMaps.put(activitiesGame.getActivitiesCode(), dtoList);
-            } else {
-                List<ActivitiesGameDTO> dtoList = gameMaps.get(activitiesGame.getActivitiesCode());
-                dtoList.add(gameDTO);
-                gameMaps.put(activitiesGame.getActivitiesCode(), dtoList);
-            }
+            gameMaps.computeIfAbsent(activitiesGame.getActivitiesCode(), k -> new ArrayList<>()).add(gameDTO);
         });
-
-        activitiesDTOList.forEach(activities -> {
-            String imageUrl = mapImage.get(activities.getCode());
-            if (imageUrl != null) {
-                activities.setImage(imageUrl);
-            }
-            activities.setActivitiesGameDTOS(gameMaps.get(activities.getCode()));
-        });
-
-        Map<String, Integer> mapReturn = new HashMap<>();
-        mapReturn.put("total", productCodes.size());
-        return BaseResponse.ok(activitiesDTOList, mapReturn);
+        return gameMaps;
     }
-    @Override
-    public BaseResponse getListRestaurant(String restaurantName, ApproveStatus status, Integer page, Integer perPage) {
-        List<Restaurant> restaurantList;
-        if (status == null && restaurantName.isEmpty()) {
-            restaurantList = restaurantRepository.findAllRestaurant();
-        } else if (restaurantName.isEmpty()) {
-            restaurantList = restaurantRepository.findRestaurantByApproveStatusOrderByCreatedAtDesc(status);
-        } else if (status == null) {
-            restaurantList = restaurantRepository.findAllByTitle((HelperUtils.unAccent(restaurantName)));
-        } else {
-            restaurantList = restaurantRepository.findAllByTitleAndApproveStatus(HelperUtils.unAccent(restaurantName), status.name());
-        }
-        List<String> productCodes = restaurantList.stream().map(Restaurant::getCode).collect(Collectors.toList());
-        List<RestaurantMenu> menuList = restaurantMenuRepository.findAll();
-        Map<Long, RestaurantMenu> map = menuList.stream().collect(Collectors.toMap(RestaurantMenu::getId, Function.identity()));
 
+    // Set giá trị cho ActivitiesDTO
+    private void attachImageAndGame(List<ActivitiesDTO> dtoList, Map<String, String> imageMap, Map<String, List<ActivitiesGameDTO>> gameMap) {
+        dtoList.forEach(dto -> {
+            String imageURL = imageMap.get(dto.getCode());
+            if (imageURL != null) {
+                dto.setImage(imageURL);
 
+            }
+            dto.setActivitiesGameDTOS(gameMap.getOrDefault(dto.getCode(), new ArrayList<>()));
+        });
+    }
 
-        List<Restaurant> restaurantListQuery = restaurantRepository.findByCodeInOrderByCreatedAtDesc(productCodes, PageRequest.of(page, perPage));
-        List<RestaurantDTO> restaurantDTOList = MappingUtils.map(restaurantListQuery, RestaurantDTO.class);
+    // Xử lý Filter Restaurant
+    private List<Restaurant> filterRestaurantByTitleAndStatus(String title, ApproveStatus status) {
+        if (status == null && title.isEmpty()) return restaurantRepository.findAllRestaurant();
+        if (title.isEmpty()) return restaurantRepository.findRestaurantByApproveStatusOrderByCreatedAtDesc(status);
+        String unAccent = HelperUtils.unAccent(title);
+        if (status == null) return restaurantRepository.findAllByTitle(unAccent);
+        return restaurantRepository.findAllByTitleAndApproveStatus(unAccent, status.name());
+    }
 
-//        List<RestaurantImage> restaurantImages =
-        List<RestaurantImage> restaurantImages = restaurantImageRepository.findUniqueImage(productCodes);
-        Map<String, String> mapImage = restaurantImages.stream().collect(Collectors.toMap(RestaurantImage::getRestaurantCode, RestaurantImage::getUrl));
-
-        List<RestaurantMenu> restaurantMenuList = restaurantMenuRepository.findAllByRestaurantCodeIn(restaurantDTOList.stream().map(RestaurantDTO::getCode).collect(Collectors.toList()));
-
+    //   xử lý RestaurantMenu và trả về kiểu Map theo giá trị tương ứng.
+    //   Lấy RestaurantMenu theo code:
+    private Map<String, List<RestaurantMenuDTO>> groupMenuByRestaurantCode(List<RestaurantDTO> restaurantDTOList) {
+        List<String> restaurantDTOCodes =  restaurantDTOList.stream().map(RestaurantDTO::getCode).collect(Collectors.toList());
+        List<RestaurantMenu> restaurantMenuList = restaurantMenuRepository.findAllByRestaurantCodeIn(restaurantDTOCodes);
         Map<String, List<RestaurantMenuDTO>> menuMaps = new HashMap<>();
 
         restaurantMenuList.forEach(restaurantMenu -> {
             RestaurantMenuDTO menuDTO = MappingUtils.map(restaurantMenu, RestaurantMenuDTO.class);
-            if (menuMaps.get(restaurantMenu.getRestaurantCode()) == null || menuMaps.get(restaurantMenu.getRestaurantCode()).isEmpty()) {
-                List<RestaurantMenuDTO> dtoList = new ArrayList<>();
-                dtoList.add(menuDTO);
-                menuMaps.put(restaurantMenu.getRestaurantCode(), dtoList);
-            } else {
-                List<RestaurantMenuDTO> dtoList = menuMaps.get(restaurantMenu.getRestaurantCode());
-                dtoList.add(menuDTO);
-                menuMaps.put(restaurantMenu.getRestaurantCode(), dtoList);
-            }
+            menuMaps.computeIfAbsent(restaurantMenu.getRestaurantCode(), k -> new ArrayList<>()).add(menuDTO);
         });
 
-        restaurantDTOList.forEach(restaurants -> {
-            String imageUrl = mapImage.get(restaurants.getCode());
-            if (imageUrl != null) {
-                restaurants.setImage(imageUrl);
-            }
-            restaurants.setRestaurantMenuDTOList(menuMaps.get(restaurants.getCode()));
-
-        });
-
-        Map<String, Integer> mapReturn = new HashMap<>();
-        mapReturn.put("total", productCodes.size());
-        return BaseResponse.ok(restaurantDTOList, mapReturn);
+        return menuMaps;
     }
+
 
 }

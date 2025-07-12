@@ -119,7 +119,7 @@ public class CustomerServiceImpl implements CustomerService {
         List<ActivitiesDTO> activitiesDTOS;
 
         if (StringUtils.isBlank(title)) {
-            List<Activities> activitiesList = activitiesRepository.findAllHotel();
+            List<Activities> activitiesList = activitiesRepository.findAllActivity();
             List<String> productCodes = activitiesList.stream().map(Activities::getCode).collect(Collectors.toList());
             List<Activities> activitiesListQuery = activitiesRepository.findByCodeInOrderByCreatedAtDesc(productCodes);
             activitiesDTOS = MappingUtils.map(activitiesListQuery, ActivitiesDTO.class);

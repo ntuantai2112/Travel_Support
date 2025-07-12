@@ -44,7 +44,7 @@ public interface ActivitiesRepository extends JpaRepository<Activities, String> 
     List<Activities> findActivitiesByApproveStatusOrderByCreatedAtDesc(ApproveStatus status);
 
     @Query(nativeQuery = true, value = "select * from activities  order by created_at desc")
-    List<Activities> findAllHotel();
+    List<Activities> findAllActivity();
 
     List<Activities> findAllByUserIdOrderByCreatedAtDesc(String userId);
 

@@ -16,6 +16,6 @@ public interface HotelImageRepository extends JpaRepository<HotelImage, Long> {
     void deleteAllByHotelCode(String hotelCode);
 
     @Query(nativeQuery = true, value = "select distinct on(hotel_code) * from hotel_image hi " +
-            " where image_type = 'MAIN' and hotel_code in(:codeList) ")
+            " where image_type = 'MAIN' and hotel_code in(:codeList)  ")
     List<HotelImage> findUniqueImage(@Param("codeList") List<String> codeList);
 }
